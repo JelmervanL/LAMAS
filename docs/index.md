@@ -48,24 +48,24 @@ win the game.
 
 ## Knowledge in Avalon
 
-- **Initial Knowledge**
+- **Initial Knowledge**  
   The logic in this game uses two propositional atoms: *e<sub> i </sub>* and *m<sub> i </sub>*. *e<sub> i </sub>* entails:
   Agent *i* is Evil. *m<sub> i </sub>* entails agent *i* is Merlin
 
   Consider a game where agents 1 and 2 are Good, agent 3 and 4 are Evil
   and agent 5 is Merlin. The initial knowledge of each agent is given by:
 
-  - **Team Good**
+  - **Team Good**  
     An agent on team Good knows that they are not Evil themselves.
     *K<sub> 1 </sub>* ¬*e<sub> 1 </sub>* ∧ K<sub> 2 </sub> ¬*e<sub> 2 </sub>*
 
-  - **Team Evil**
+  - **Team Evil**  
     An agent on team Evil knows for every agent whether they are Good
     or Evil, and considers it possible that any agent on team Good is
     Merlin.  
     *K<sub> 3 </sub>* (*e<sub> 3 </sub>* ∧ *e<sub> 4 </sub>* ∧ ¬*e<sub> 1 </sub>* ∧ ¬*e<sub> 2 </sub>* ∧ ¬*e<sub> 5 </sub>* ∧ (*m<sub> 1 </sub>* ∨ *m<sub> 2 </sub>* ∨ *m<sub> 5 </sub>*)) ∧  
     *K<sub> 4 </sub>* (*e<sub> 4 </sub>* ∧ *e<sub> 3 </sub>* ∧ ¬*e<sub> 1 </sub>* ∧ ¬*e<sub> 2 </sub>* ∧ ¬*e<sub> 5 </sub>* ∧ (*m<sub> 1 </sub>* ∨ *m<sub> 2 </sub>* ∨ *m<sub> 5 </sub>*))  
-  - **Merlin**
+  - **Merlin**  
     Merlin knows for every agent whether they are Good or Evil  
     *K<sub> 5 </sub>* (¬*e<sub> 1 </sub>* ∧ ¬*e<sub> 2 </sub>* ∧ *e<sub> 3 </sub>* ∧ *e<sub> 4 </sub>* ∧ ¬*e<sub> 5 </sub>*)  
 
@@ -76,17 +76,17 @@ win the game.
   agents from team Evil.
 
 
-- **Determine Quest Leader**
+- **Determine Quest Leader**  
   At the beginning of the game a random order is created which determines
   who will be the quest leader. The first quest leader will be the first person
   in this list, the next quest leader the one after etc. etc.
 
 
-- **Choose Quest Team**
+- **Choose Quest Team**  
   The team selection for the quest is determined by the Quest leader. The
   choice of the quest leader depends on whether the quest leader is a member
   of team Good, team Evil or Merlin.
-  - **Team Good**
+  - **Team Good**  
     The team selection for the quest is determined by the Quest leader. The
     choice of the quest leader depends on whether the quest leader is a member
     of team Good, team Evil or Merlin.
@@ -95,7 +95,7 @@ win the game.
     exist, they will fill up the team with agents about whom they know
     they are Evil.
 
-  - **Team Evil**
+  - **Team Evil**  
     When the quest leader belongs to team Evil they do not want to send
     a member of team Evil on the quest that has been revealed as Evil to
     any of the team Good members, because these team Good members
@@ -114,61 +114,61 @@ win the game.
     In short, a quest leader from team Evil will choose the Evil agent
     whose identity is known to the least amount of Good agents.
 
-  - **Merlin**
+  - **Merlin**  
     When the quest leader is the Merlin it behaves the same as a team
     Good member. Because Merlin knows the identity of all agents, Mer-
     lin will only choose players randomly out of the group of team Good
     to send on a quest.
 
 
-- **Voting on Quest Team**
+- **Voting on Quest Team**  
   When a team is proposed by the quest leader, each agent in the game
   votes whether they want that chosen team to go on the quest or not. How
   each agent votes depends on whether they belong to team Good, team
   Evil or Merlin.
 
-  - **Team Good**
+  - **Team Good**  
     A member of team Good will always disagree if they know that a
     member of team Evil is on the quest team. Otherwise they will agree
     with the proposed quest team.
 
-  - **Team Evil**
+  - **Team Evil**  
     Members of team Evil want to be on the quest team, so they will
     always agree if one member of team Evil is in the proposed quest
     team. Otherwise they will disagree with the proposed quest team.
 
-  - **Merlin**
+  - **Merlin**  
     Merlin will use the same logic as a regular member of team Good,
     but will sometimes ”bluff” and vote against this belief. This means
     Merlin will agree with a team proposition that consists of a member
     of team Evil. This is done as an attempt to stay hidden, giving the
     members of team Evil false information about his own knowledge.
 
-- **Pass or Fail Quest**
+- **Pass or Fail Quest**  
   Whether an agents chooses a pass or fail card when sent on a quest depends
   on whether the agents belongs to team Good or team Evil.
-  - **Team Good**
+  - **Team Good**  
     A member of team Good will always play the pass card when chosen
     on the quest.
 
-  - **Team Evil**
+  - **Team Evil**  
     A team Evil member will wants to play a fail card to fail the quest.
     However, a member of team Evil will take into consideration that
     playing a fail card can result in the identity of both Evil members
     being discovered by a team Good member. If this can happen, they
     will choose a pass card instead of using a fail card, to hide the identities of team Evil.
-  - **Merlin**
+  - **Merlin**  
     For Merlin the behavior is the same as team Good. This means
     Merlin will always play the pass card when chosen on the quest.
 
-- **Updating Knowledge Based On Public Announcements And Reasoning**
+- **Updating Knowledge Based On Public Announcements And Reasoning**  
   The general voting of individual agents on team makeup is not considered
   a public announcement in our model, for simplification reasons.  
 
   The proposed quest team of the quest leader is also not considered a public
   announcement about the knowledge of the quest leader in our model.
   These restrictions are chosen to keep the model from growing too large.
-  - **Team Good**
+  - **Team Good**  
     The knowledge of members of team Good will be updated based on
     a public announcement that is a result of the quest passing/failing.
     If, for example, agent 1 and 2 are sent on a quest which fails with
@@ -190,7 +190,7 @@ win the game.
     Good member knows that the Evil member that went on the quest
     is Evil.
 
-  - **Merlin**
+  - **Merlin**  
     Merlins knowledge is not updated, as this agent already knows
     everyone’s role/allegiance.
 
@@ -239,7 +239,7 @@ agent 5 is Merlin. The initial knowledge of each agent is given by:
 
 ### Quest 1
 
-- **Quest leader is assigned and proposes team**
+- **Quest leader is assigned and proposes team**  
   Then the first quest leader is randomly chosen and agent 1 becomes mission
   leader. Agent 1 is an agent of team Good, and will therefore try to propose a
   team consisting of other members of team Good. The only agent i for which
@@ -248,7 +248,7 @@ agent 5 is Merlin. The initial knowledge of each agent is given by:
   agents alliance yet, so it will randomly select agent 4, and proposes the first
   team consisting of agent 1 and agent 4.
 
-- **Voting on quest team**
+- **Voting on quest team**  
   Now, each agent can vote for or against this team to go on the quest. Agent 1
   automatically votes in favor, as they proposed this team. Agent 2 is not aware
   of any Evil players being on this team, because *K* <sub> 2 </sub> ¬ *e* <sub> 2 </sub>, and therefore will also
@@ -258,7 +258,7 @@ agent 5 is Merlin. The initial knowledge of each agent is given by:
   This results in 4 votes in favor and 1 vote against, so agents 1 and 4 go on
   the first quest.
 
-- **Questing agents pass/fail**
+- **Questing agents pass/fail**  
   Agent 1 is a Good agent, and will therefore play a pass card for the quest. Agent
   4 is an Evil agent, and agent 4 knows that it will only reveal its own identity to
   agent 1 if they sabotage and, so they are fine with sabotaging this quest. (We
@@ -268,7 +268,7 @@ agent 5 is Merlin. The initial knowledge of each agent is given by:
   Then, the quest fails because at least one of the two agents played a fail
   card, awarding one point to team Evil.
 
-- **Knowledge update based on outcome**
+- **Knowledge update based on outcome**  
   The outcome of the quest is a public announcement in the form of [e1 ∨ e4]. The
   following changes about each agents’ knowledge: [*e<sub> 1 </sub> ∨ e <sub> 4 </sub>*].  
 
@@ -284,13 +284,13 @@ agent 5 is Merlin. The initial knowledge of each agent is given by:
   keep this section readable and short.
 
 ### Quest 2
-- **Quest leader is assigned and proposes team**
+- **Quest leader is assigned and proposes team**  
   Agent 2 becomes the second quest leader. They have no certain knowledge about
   any agents identity other than their own, and therefore will select themselves
   and a random agent for this mission. They propose the second team to consist
   of agent 2, 3 and 4.
 
-- **Voting on quest team**
+- **Voting on quest team**  
   Agent 1 votes against this team, because they know that agent 4 is Evil *K* <sub> 1 </sub> *e* <sub> 4 </sub>  
   Agent 2 votes in favor  
   Agent 3 votes in favor, as they know that agent 4 is Evil.  
@@ -300,7 +300,7 @@ agent 5 is Merlin. The initial knowledge of each agent is given by:
   This results in 3 votes in favor and 1 vote against, so agents 2, 3 and 4 go
   on the second quest.
 
-- **Questing agents pass/fail**
+- **Questing agents pass/fail**  
   Agent 2 is a Good agent, and will therefore play a pass card for the quest.
   Agents 3 and 4 know that if they both play a fail card, their identities get
   revealed to agent 2, so in order to ensure that agent 2 does not discover both
@@ -309,7 +309,7 @@ agent 5 is Merlin. The initial knowledge of each agent is given by:
   passes).  
   Consequentially, the quest succeeds, and team Good gets 1 point.
 
-- **Knowledge update based on outcome**
+- **Knowledge update based on outcome**  
   Because no fail cards were revealed for this quest, none of the agents learn
   anything.
 
@@ -323,13 +323,13 @@ This is a problem in our setup right now. There is a variety of ways we can
 work around this problem, and we would like to discuss this in detail during our
 feedback session. For now, we have the following ideas:  
 
-- **Suggestion 1**
+- **Suggestion 1**  
   Evil players can not win the game by determining which agent is Merlin.
   By removing Merlin as a win-condition for team Evil, Merlin simply acts
   as a very powerful member of team Good, and nothing else. We would
   prefer to not have to choose this option, but it is there.
 
-- **Suggestion 2**
+- **Suggestion 2**  
   Evil players only reason about whether or not an agent is Merlin based
   on the team that that agent proposes as quest leader.
   By doing this, Evil players are not guaranteed to learn Merlin’s identity
@@ -338,7 +338,7 @@ feedback session. For now, we have the following ideas:
   create some uncertainty for the Evil players about Merlins’ identity in
   some games.
 
-- **Suggestion 3**
+- **Suggestion 3**  
   Merlin can bluff by either voting in favor of teams with Evil agents, or
   even proposing teams with Evil agents when they are quest leader.
   This would be the most realistic option, because this is how a real player

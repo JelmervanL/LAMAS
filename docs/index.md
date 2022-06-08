@@ -62,12 +62,12 @@ win the game. The Assassin character has the final say who gets assassinated.
   - **Team Evil**
     An agent on team Evil knows for every agent whether they are Good
     or Evil, and considers it possible that any agent on team Good is
-    Merlin. __
-    *K<sub> 3 </sub>* (*e<sub> 3 </sub>* ∧ *e<sub> 4 </sub>* ∧ ¬*e<sub> 1 </sub>* ∧ ¬*e<sub> 2 </sub>* ∧ ¬*e<sub> 5 </sub>* ∧ (*m<sub> 1 </sub>* ∨ *m<sub> 2 </sub>* ∨ *m<sub> 5 </sub>*)) ∧__
-    *K<sub> 4 </sub>* (*e<sub> 4 </sub>* ∧ *e<sub> 3 </sub>* ∧ ¬*e<sub> 1 </sub>* ∧ ¬*e<sub> 2 </sub>* ∧ ¬*e<sub> 5 </sub>* ∧ (*m<sub> 1 </sub>* ∨ *m<sub> 2 </sub>* ∨ *m<sub> 5 </sub>*))__
+    Merlin.  
+    *K<sub> 3 </sub>* (*e<sub> 3 </sub>* ∧ *e<sub> 4 </sub>* ∧ ¬*e<sub> 1 </sub>* ∧ ¬*e<sub> 2 </sub>* ∧ ¬*e<sub> 5 </sub>* ∧ (*m<sub> 1 </sub>* ∨ *m<sub> 2 </sub>* ∨ *m<sub> 5 </sub>*)) ∧  
+    *K<sub> 4 </sub>* (*e<sub> 4 </sub>* ∧ *e<sub> 3 </sub>* ∧ ¬*e<sub> 1 </sub>* ∧ ¬*e<sub> 2 </sub>* ∧ ¬*e<sub> 5 </sub>* ∧ (*m<sub> 1 </sub>* ∨ *m<sub> 2 </sub>* ∨ *m<sub> 5 </sub>*))  
   - **Merlin**
-    Merlin knows for every agent whether they are Good or Evil __
-    *K<sub> 5 </sub>* (¬*e<sub> 1 </sub>* ∧ ¬*e<sub> 2 </sub>* ∧ *e<sub> 3 </sub>* ∧ *e<sub> 4 </sub>* ∧ ¬*e<sub> 5 </sub>*) __
+    Merlin knows for every agent whether they are Good or Evil  
+    *K<sub> 5 </sub>* (¬*e<sub> 1 </sub>* ∧ ¬*e<sub> 2 </sub>* ∧ *e<sub> 3 </sub>* ∧ *e<sub> 4 </sub>* ∧ ¬*e<sub> 5 </sub>*)  
 
   In order to keep the model complexity low, only the Evil players care
   about Merlin. Merlin simply acts like any other Good player, except he
@@ -88,18 +88,18 @@ win the game. The Assassin character has the final say who gets assassinated.
   of team Good, team Evil or Merlin.
   - **Team Good**
     The team selection for the quest is determined by the Quest leader. The
-  choice of the quest leader depends on whether the quest leader is a member
-  of team Good, team Evil or Merlin.
-  They will then try to fill up the rest of team with agents about whom
-  they do not know whether or not they are Evil. If no such agents
-  exist, they will fill up the team with agents about whom they know
-  they are Evil.
+    choice of the quest leader depends on whether the quest leader is a member
+    of team Good, team Evil or Merlin.
+    They will then try to fill up the rest of team with agents about whom
+    they do not know whether or not they are Evil. If no such agents
+    exist, they will fill up the team with agents about whom they know
+    they are Evil.
 
   - **Team Evil**
     When the quest leader belongs to team Evil they do not want to send
     a member of team Evil on the quest that has been revealed as Evil to
     any of the team Good members, because these team Good members
-    will then vote against the mission. In other words, if the quest leader
+    will then vote against the quest. In other words, if the quest leader
     knows that any of the team Good members knows the identity of
     one of the members of team Evil, they will not choose that team
     Evil member to go on the quest. If this happens the quest leader will
@@ -162,8 +162,34 @@ win the game. The Assassin character has the final say who gets assassinated.
     Merlin will always play the pass card when chosen on the quest.
 
 - **Updating Knowledge Based On Public Announcements And Reasoning**
-  - **Team Good**
+  The general voting of individual agents on team makeup is not considered
+  a public announcement in our model, for simplification reasons.  
 
+  The proposed quest team of the quest leader is also not considered a public
+  announcement about the knowledge of the quest leader in our model.
+  These restrictions are chosen to keep the model from growing too large.
+  - **Team Good**
+    The knowledge of members of team Good will be updated based on
+    a public announcement that is a result of the quest passing/failing.
+    If, for example, agent 1 and 2 are sent on a quest which fails with
+    one fail card. This results in the following public announcement for
+    everyone: [*e<sub> 1 </sub> ∨ e <sub> 1 </sub>*].  
+
+    If agent 1 is on team Good, *K* <sub> 1 </sub> ¬*e* <sub> 1 </sub> therefore after this public announcement *K* <sub> 1 </sub> *e* <sub> 2 </sub>. 
+    If a quest fails with all fail cards then the following announcement will be made:    
+    [*e<sub> 1 </sub> ∧ e <sub> 1 </sub>*].  
+    The same logic can be applied for quest were the quest team consists of three agents.
   - **Team Evil**
+    The knowledge of team Evil is reasoned based on the voting of team good members 
+    on quest team propositions. If an agent votes on a
+    quest team that consists of at least one member of team Evil, then
+    the members of team Evil will not consider that agent to be Merlin
+    anymore. Furthermore, when a member of team Good was chosen to
+    go on a quest together with a member of team Evil, and that Evil
+    played the fail card, both team Evil members now know that the
+    Good member knows that the Evil member that went on the quest
+    is Evil.
 
   - **Merlin**
+    Merlins knowledge is not updated, as this agent already knows
+    everyone’s role/allegiance.

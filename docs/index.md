@@ -323,24 +323,21 @@ This is a problem in our setup right now. There is a variety of ways we can
 work around this problem, and we would like to discuss this in detail during our
 feedback session. For now, we have the following ideas:  
 
-- **Suggestion 1**  
-  Evil players can not win the game by determining which agent is Merlin.  
+- **Evil players can not win the game by determining which agent is Merlin.**      
   By removing Merlin as a win-condition for team Evil, Merlin simply acts
   as a very powerful member of team Good, and nothing else. We would
   prefer to not have to choose this option, but it is there.
 
-- **Suggestion 2**  
-  Evil players only reason about whether or not an agent is Merlin based
-  on the team that that agent proposes as quest leader.  
+- **Evil players only reason about whether or not an agent is Merlin based
+  on the team that that agent proposes as quest leader.**  
   By doing this, Evil players are not guaranteed to learn Merlin’s identity
   before some agents from team Good have enough information about the
   Evil players’ identities in order to select “optimal” teams. This would
   create some uncertainty for the Evil players about Merlins’ identity in
   some games.
 
-- **Suggestion 3**  
-  Merlin can bluff by either voting in favor of teams with Evil agents, or
-  even proposing teams with Evil agents when they are quest leader.  
+- **Merlin can bluff by either voting in favor of teams with Evil agents, or
+  even proposing teams with Evil agents when they are quest leader.**     
   This would be the most realistic option, because this is how a real player
   of Avalon would hide their identity as Merlin from team Evil. However,
   this makes an implementation of this game using a Kripke model more

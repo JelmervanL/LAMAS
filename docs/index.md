@@ -318,7 +318,8 @@ agent 5 is Merlin. The initial knowledge of each agent is given by:
 As you may have noticed the identity of Merlin is already revealed to both team
 Evil members already after the first quest, because agent 3 and 4 no longer
 considers it possible that agents 1 and 2 are not Merlin, so it must be agent
-5. This means that at the end of the game team Evil is guaranteed to win.
+5.  
+This means that at the end of the game team Evil is guaranteed to win.
 This is a problem in our setup right now. There is a variety of ways we can
 work around this problem, and we would like to discuss this in detail during our
 feedback session. For now, we have the following ideas:  

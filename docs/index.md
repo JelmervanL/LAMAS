@@ -49,7 +49,19 @@ win the game. The Assassin character has the final say who gets assassinated.
 ## Knowledge in Avalon
 
 - **Initial Knowledge**
+The logic in this game uses two propositional atoms: *e<sub> i </sub>* and *m<sub> i </sub>*. *e<sub> i </sub>* entails:
+Agent *i* is Evil. *m<sub> i </sub>* entails agent *i* is Merlin
 
+Consider a game where agents 1 and 2 are Good, agent 3 and 4 are Evil
+and agent 5 is Merlin. The initial knowledge of each agent is given by:
+
+  - **Team Good**
+    An agent on team Good knows that they are not Evil themselves.
+    K<sub> 1 </sub> ¬*e<sub> 1 </sub>* ∧ K<sub> 2 </sub> ¬*e<sub> 2 </sub>*
+
+  - **Team Evil**
+
+  - **Merlin**
 - **Determine Quest Leader**
 
 - **Choose Quest Team**

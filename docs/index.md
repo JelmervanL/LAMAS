@@ -321,7 +321,8 @@ considers it possible that agents 1 and 2 are not Merlin, so it must be agent
 5. This means that at the end of the game team Evil is guaranteed to win.
 This is a problem in our setup right now. There is a variety of ways we can
 work around this problem, and we would like to discuss this in detail during our
-feedback session. For now, we have the following ideas:
+feedback session. For now, we have the following ideas:  
+
 - **Suggestion 1**
   Evil players can not win the game by determining which agent is Merlin.
   By removing Merlin as a win-condition for team Evil, Merlin simply acts

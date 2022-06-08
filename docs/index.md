@@ -43,7 +43,7 @@ new round begins.
 After team Good has completed three quests, team Evil gets one more chance
 at victory. If they manage to determine who Merlin is, who might have revealed
 himself by sharing his knowledge too blatantly, they can assassinate him and
-win the game. The Assassin character has the final say who gets assassinated.
+win the game. 
 
 
 ## Knowledge in Avalon
@@ -173,11 +173,11 @@ win the game. The Assassin character has the final say who gets assassinated.
     a public announcement that is a result of the quest passing/failing.
     If, for example, agent 1 and 2 are sent on a quest which fails with
     one fail card. This results in the following public announcement for
-    everyone: [*e<sub> 1 </sub> ∨ e <sub> 1 </sub>*].  
+    everyone: [*e<sub> 1 </sub> ∨ e <sub> 2 </sub>*].  
 
     If agent 1 is on team Good, *K* <sub> 1 </sub> ¬*e* <sub> 1 </sub> therefore after this public announcement *K* <sub> 1 </sub> *e* <sub> 2 </sub>. 
     If a quest fails with all fail cards then the following announcement will be made:    
-    [*e<sub> 1 </sub> ∧ e <sub> 1 </sub>*].  
+    [*e<sub> 1 </sub> ∧ e <sub> 2 </sub>*].  
     The same logic can be applied for quest were the quest team consists of three agents.
   - **Team Evil**
     The knowledge of team Evil is reasoned based on the voting of team good members 
@@ -193,3 +193,131 @@ win the game. The Assassin character has the final say who gets assassinated.
   - **Merlin**
     Merlins knowledge is not updated, as this agent already knows
     everyone’s role/allegiance.
+
+
+## Research Question and Experiments
+
+Our idea is to let AI play games against each other and count how often each
+of the teams win. We can look at this with Merlin included in the game and
+without the inclusion of Merlin, to how the inclusion of Merlin impacts the game.  
+
+Additionally, we could give Merlin the ability to bluff. Merlin might need to
+do this to hide their identity as Merlin. Merlin might for example vote against
+quest teams consisting of only team Good members. We could look at a bluffing
+probability, simulate a number of games and evaluate how often each team wins.
+However, we are not sure yet how to implement this bluffing in combination with
+the knowledge of other agents in the game, because we think this is not possible
+with only the epistemic logic we were taught during this course. An idea was
+to let each agent of team Evil to keep track how often a player votes against a
+quest team proposition that consists of at least one member of team Evil. Then
+after the game is concluded, the agent that voted against such teams the most
+often is induced to be Merlin and killed by team Evil.  
+
+There are many more things we could explore, such as changing the amount
+of quests in a game, the amount of agents per quest or even agents in the game.
+This is something we would like to talk about during our feedback session, to
+ensure that we do enough to make the project interesting, but also to not make
+the project unfeasible.
+
+
+## Example Run
+
+This section covers an example run of a game of Avalon to show how knowledge
+of the different agents changes as the game progresses, and how this influences
+their decisions while playing.  
+
+### Initial Knowledge
+
+Consider a game where agents 1 and 2 are Good, agent 3 and 4 are Evil and
+agent 5 is Merlin. The initial knowledge of each agent is given by:  
+
+*K* <sub> 1 </sub> ¬ *e* <sub> 1 </sub>  
+*K* <sub> 2 </sub> ¬ *e* <sub> 2 </sub>  
+*K<sub> 3 </sub>* (*e<sub> 3 </sub>* ∧ *e<sub> 4 </sub>* ∧ ¬*e<sub> 1 </sub>* ∧ ¬*e<sub> 2 </sub>* ∧ ¬*e<sub> 5 </sub>* ∧ (*m<sub> 1 </sub>* ∨ *m<sub> 2 </sub>* ∨ *m<sub> 5 </sub>*))  
+*K<sub> 4 </sub>* (*e<sub> 4 </sub>* ∧ *e<sub> 3 </sub>* ∧ ¬*e<sub> 1 </sub>* ∧ ¬*e<sub> 2 </sub>* ∧ ¬*e<sub> 5 </sub>* ∧ (*m<sub> 1 </sub>* ∨ *m<sub> 2 </sub>* ∨ *m<sub> 5 </sub>*))  
+*K<sub> 5 </sub>* (¬*e<sub> 1 </sub>* ∧ ¬*e<sub> 2 </sub>* ∧ *e<sub> 3 </sub>* ∧ *e<sub> 4 </sub>* ∧ ¬*e<sub> 5 </sub>*) 
+
+### Quest 1
+
+- **Quest leader is assigned and proposes team**
+  Then the first quest leader is randomly chosen and agent 1 becomes mission
+  leader. Agent 1 is an agent of team Good, and will therefore try to propose a
+  team consisting of other members of team Good. The only agent i for which
+  *K* <sub> 2 </sub> ¬ *e* <sub> i </sub>  is agent 1 itself. To fill the second spot in the team, agent 1 will try
+  to avoid choosing any Evil players, but agent 1 has no knowledge about other
+  agents alliance yet, so it will randomly select agent 4, and proposes the first
+  team consisting of agent 1 and agent 4.
+
+- **Voting on quest team**
+  Now, each agent can vote for or against this team to go on the quest. Agent 1
+  automatically votes in favor, as they proposed this team. Agent 2 is not aware
+  of any Evil players being on this team, because *K* <sub> 2 </sub> ¬ *e* <sub> 2 </sub>, and therefore will also
+  vote in favor. Agent 3 knows that *K* <sub> 3 </sub>( ¬ *e* <sub> 1 </sub> ∧ *e* <sub> 4 </sub> ) and therefore votes in favor of
+  this team. Agent 4 idem. Agent 5 knows *K* <sub> 5 </sub>( ¬ *e* <sub> 1 </sub> ∧ *e* <sub> 4 </sub> )and will vote against
+  this team (because they know there is an Evil player on the team).  
+  This results in 4 votes in favor and 1 vote against, so agents 1 and 4 go on
+  the first quest.
+
+- **Questing agents pass/fail**
+  Agent 1 is a Good agent, and will therefore play a pass card for the quest. Agent
+  4 is an Evil agent, and agent 4 knows that it will only reveal its own identity to
+  agent 1 if they sabotage and, so they are fine with sabotaging this quest. (We
+  intentionally don’t write down the knowledge of agent 4 about the knowledge
+  of the 3 Good agents in order to make this section easier to read).  
+
+  Then, the quest fails because at least one of the two agents played a fail
+  card, awarding one point to team Evil.
+
+- **Knowledge update based on outcome**
+  The outcome of the quest is a public announcement in the form of [e1 ∨ e4]. The
+  following changes about each agents’ knowledge: [*e<sub> 1 </sub> ∨ e <sub> 4 </sub>*].  
+
+  Agent 1 now knows that agent 4 is Evil: *K* <sub> 1 </sub> (¬ *e* <sub> 1 </sub> ∧ *e* <sub> 4 </sub>)  
+  Agent 2 now knows that agent 1 or 4 is Evil: *K* <sub> 2 </sub> (¬ *e* <sub> 2 </sub> ∧ (*e<sub> 1 </sub> ∨ e <sub> 4 </sub>*))  
+  Agent 3 now knows that agent 1 knows that agent 4 is Evil: *K* <sub> 3 </sub> *K* <sub> 1 </sub> *e* <sub> 4 </sub>  
+  Agent 3 also no longer considers it possible that agents 1 and 2 are not Merlin,
+  because they voted in favor of a quest containing an Evil agent: *K* <sub> 3 </sub> *m* <sub> 5 </sub>  
+  Agent 4 now knows that agent 1 knows that agent 4 is Evil *K* <sub> 4 </sub> *K* <sub> 1 </sub> *e* <sub> 4 </sub>  
+  Agent 4 also no longer considers it possible that agents 1 and 2 are not Merlin,
+  because they voted in favor of a quest containing an Evil agent: *K* <sub> 4 </sub> *m* <sub> 5 </sub>  
+  Note that we omit some of the previous knowledge of some agents in order to
+  keep this section readable and short.
+
+### Quest 2
+- **Quest leader is assigned and proposes team**
+  Agent 2 becomes the second quest leader. They have no certain knowledge about
+  any agents identity other than their own, and therefore will select themselves
+  and a random agent for this mission. They propose the second team to consist
+  of agent 2, 3 and 4.
+
+- **Voting on quest team**
+  Agent 1 votes against this team, because they know that agent 4 is Evil *K* <sub> 1 </sub> *e* <sub> 4 </sub>  
+  Agent 2 votes in favor  
+  Agent 3 votes in favor, as they know that agent 4 is Evil.  
+  Agent 4 votes in favor, as they know that they themselves are Evil.  
+  Agent 5 votes against this team, because they know that agent 4 is Evil *K* <sub> 5 </sub> *e* <sub> 4 </sub>  
+
+  This results in 3 votes in favor and 1 vote against, so agents 2, 3 and 4 go
+  on the second quest.
+
+- **Questing agents pass/fail**
+  Agent 2 is a Good agent, and will therefore play a pass card for the quest.
+  Agents 3 and 4 know that if they both play a fail card, their identities get
+  revealed to agent 2, so in order to ensure that agent 2 does not discover both
+  their identities, they both play a fail card (this is necessary because they can
+  not communicate to each other to make one of them play a fail while the other
+  passes).  
+  Consequentially, the quest succeeds, and team Good gets 1 point.
+
+- **Knowledge update based on outcome**
+  Because no fail cards were revealed for this quest, none of the agents learn
+  anything.
+  
+### Problems with this example run
+
+## Implementation
+
+We will implement a Kripke model to simulate AI players against other AI
+players. This will be implemented using the Python programming language,
+using the mlsolver library for implementing the Kripke model and
+modelling the behaviour of the agents.

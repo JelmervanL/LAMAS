@@ -57,39 +57,109 @@ win the game. The Assassin character has the final say who gets assassinated.
 
   - **Team Good**
     An agent on team Good knows that they are not Evil themselves.
-    K<sub> 1 </sub> ¬*e<sub> 1 </sub>* ∧ K<sub> 2 </sub> ¬*e<sub> 2 </sub>*
+    *K<sub> 1 </sub>* ¬*e<sub> 1 </sub>* ∧ K<sub> 2 </sub> ¬*e<sub> 2 </sub>*
 
   - **Team Evil**
     An agent on team Evil knows for every agent whether they are Good
     or Evil, and considers it possible that any agent on team Good is
-    Merlin.
-    K<sub> 3 </sub> (*e<sub> 3 </sub>* ∧ *e<sub> 4 </sub>* ∧ ¬*e<sub> 1 </sub>* ∧ ¬*e<sub> 2 </sub>* ∧ ¬*e<sub> 5 </sub>* ∧ (*m<sub> 1 </sub>* ∨ *m<sub> 2 </sub>* ∨ *m<sub> 5 </sub>*)) ∧
-    K<sub> 4 </sub> (*e<sub> 4 </sub>* ∧ *e<sub> 3 </sub>* ∧ ¬*e<sub> 1 </sub>* ∧ ¬*e<sub> 2 </sub>* ∧ ¬*e<sub> 5 </sub>* ∧ (*m<sub> 1 </sub>* ∨ *m<sub> 2 </sub>* ∨ *m<sub> 5 </sub>*)) ∧
+    Merlin. __
+    *K<sub> 3 </sub>* (*e<sub> 3 </sub>* ∧ *e<sub> 4 </sub>* ∧ ¬*e<sub> 1 </sub>* ∧ ¬*e<sub> 2 </sub>* ∧ ¬*e<sub> 5 </sub>* ∧ (*m<sub> 1 </sub>* ∨ *m<sub> 2 </sub>* ∨ *m<sub> 5 </sub>*)) ∧__
+    *K<sub> 4 </sub>* (*e<sub> 4 </sub>* ∧ *e<sub> 3 </sub>* ∧ ¬*e<sub> 1 </sub>* ∧ ¬*e<sub> 2 </sub>* ∧ ¬*e<sub> 5 </sub>* ∧ (*m<sub> 1 </sub>* ∨ *m<sub> 2 </sub>* ∨ *m<sub> 5 </sub>*))__
   - **Merlin**
-    Merlin knows for every agent whether they are Good or Evil
-    K<sub> 5 </sub> (¬*e<sub> 1 </sub>* ∧ ¬*e<sub> 2 </sub>* ∧ *e<sub> 3 </sub>* ∧ *e<sub> 4 </sub>* ∧ ¬*e<sub> 5 </sub>*)
+    Merlin knows for every agent whether they are Good or Evil __
+    *K<sub> 5 </sub>* (¬*e<sub> 1 </sub>* ∧ ¬*e<sub> 2 </sub>* ∧ *e<sub> 3 </sub>* ∧ *e<sub> 4 </sub>* ∧ ¬*e<sub> 5 </sub>*) __
+
+  In order to keep the model complexity low, only the Evil players care
+  about Merlin. Merlin simply acts like any other Good player, except he
+  starts the game with full knowledge about other agents roles. Therefore,
+  knowledge about who Merlin is is only modeled from the perspective of
+  agents from team Evil.
+
+
 - **Determine Quest Leader**
+  At the beginning of the game a random order is created which determines
+  who will be the quest leader. The first quest leader will be the first person
+  in this list, the next quest leader the one after etc. etc.
+
 
 - **Choose Quest Team**
+  The team selection for the quest is determined by the Quest leader. The
+  choice of the quest leader depends on whether the quest leader is a member
+  of team Good, team Evil or Merlin.
   - **Team Good**
+    The team selection for the quest is determined by the Quest leader. The
+  choice of the quest leader depends on whether the quest leader is a member
+  of team Good, team Evil or Merlin.
+  They will then try to fill up the rest of team with agents about whom
+  they do not know whether or not they are Evil. If no such agents
+  exist, they will fill up the team with agents about whom they know
+  they are Evil.
 
   - **Team Evil**
+    When the quest leader belongs to team Evil they do not want to send
+    a member of team Evil on the quest that has been revealed as Evil to
+    any of the team Good members, because these team Good members
+    will then vote against the mission. In other words, if the quest leader
+    knows that any of the team Good members knows the identity of
+    one of the members of team Evil, they will not choose that team
+    Evil member to go on the quest. If this happens the quest leader will
+    choose the other member of team Evil that has not yet been revealed.
+    The remaining spots for the quest are then randomly chosen from the
+    Good members. The quest leader will always choose one Evil member
+    for the quest, even if both Evil members have been revealed to the
+    Good members. This Evil member will then be chosen randomly.
+    This is done because the Evil members do not want to send a team
+    that consists of only Good members.
+
+    In short, a quest leader from team Evil will choose the Evil agent
+    whose identity is known to the least amount of Good agents.
 
   - **Merlin**
+    When the quest leader is the Merlin it behaves the same as a team
+    Good member. Because Merlin knows the identity of all agents, Mer-
+    lin will only choose players randomly out of the group of team Good
+    to send on a quest.
+
 
 - **Voting on Quest Team**
+  When a team is proposed by the quest leader, each agent in the game
+  votes whether they want that chosen team to go on the quest or not. How
+  each agent votes depends on whether they belong to team Good, team
+  Evil or Merlin.
+
   - **Team Good**
+    A member of team Good will always disagree if they know that a
+    member of team Evil is on the quest team. Otherwise they will agree
+    with the proposed quest team.
 
   - **Team Evil**
+    Members of team Evil want to be on the quest team, so they will
+    always agree if one member of team Evil is in the proposed quest
+    team. Otherwise they will disagree with the proposed quest team.
 
   - **Merlin**
+    Merlin will use the same logic as a regular member of team Good,
+    but will sometimes ”bluff” and vote against this belief. This means
+    Merlin will agree with a team proposition that consists of a member
+    of team Evil. This is done as an attempt to stay hidden, giving the
+    members of team Evil false information about his own knowledge.
 
 - **Pass or Fail Quest**
+  Whether an agents chooses a pass or fail card when sent on a quest depends
+  on whether the agents belongs to team Good or team Evil.
   - **Team Good**
+    A member of team Good will always play the pass card when chosen
+    on the quest.
 
   - **Team Evil**
-
+    A team Evil member will wants to play a fail card to fail the quest.
+    However, a member of team Evil will take into consideration that
+    playing a fail card can result in the identity of both Evil members
+    being discovered by a team Good member. If this can happen, they
+    will choose a pass card instead of using a fail card, to hide the identities of team Evil.
   - **Merlin**
+    For Merlin the behavior is the same as team Good. This means
+    Merlin will always play the pass card when chosen on the quest.
 
 - **Updating Knowledge Based On Public Announcements And Reasoning**
   - **Team Good**

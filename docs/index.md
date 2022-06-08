@@ -312,8 +312,41 @@ agent 5 is Merlin. The initial knowledge of each agent is given by:
 - **Knowledge update based on outcome**
   Because no fail cards were revealed for this quest, none of the agents learn
   anything.
-  
+
 ### Problems with this example run
+
+As you may have noticed the identity of Merlin is already revealed to both team
+Evil members already after the first quest, because agent 3 and 4 no longer
+considers it possible that agents 1 and 2 are not Merlin, so it must be agent
+5. This means that at the end of the game team Evil is guaranteed to win.
+This is a problem in our setup right now. There is a variety of ways we can
+work around this problem, and we would like to discuss this in detail during our
+feedback session. For now, we have the following ideas:
+- **Suggestion 1**
+  Evil players can not win the game by determining which agent is Merlin.
+  By removing Merlin as a win-condition for team Evil, Merlin simply acts
+  as a very powerful member of team Good, and nothing else. We would
+  prefer to not have to choose this option, but it is there.
+
+- **Suggestion 2**
+  Evil players only reason about whether or not an agent is Merlin based
+  on the team that that agent proposes as quest leader.
+  By doing this, Evil players are not guaranteed to learn Merlin’s identity
+  before some agents from team Good have enough information about the
+  Evil players’ identities in order to select “optimal” teams. This would
+  create some uncertainty for the Evil players about Merlins’ identity in
+  some games.
+
+- **Suggestion 3**
+  Merlin can bluff by either voting in favor of teams with Evil agents, or
+  even proposing teams with Evil agents when they are quest leader.
+  This would be the most realistic option, because this is how a real player
+  of Avalon would hide their identity as Merlin from team Evil. However,
+  this makes an implementation of this game using a Kripke model more
+  difficult, because Merlin would either need to use logic to determine when
+  it is necessary to bluff (not blindly following their knowledge) or not, or
+  he would need to have some chance to bluff (not act on their knowledge)
+  or not.
 
 ## Implementation
 

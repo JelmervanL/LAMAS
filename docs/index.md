@@ -43,4 +43,39 @@ new round begins.
 After team Good has completed three quests, team Evil gets one more chance
 at victory. If they manage to determine who Merlin is, who might have revealed
 himself by sharing his knowledge too blatantly, they can assassinate him and
-win the game. The Assassin character has the final say who gets assassinated
+win the game. The Assassin character has the final say who gets assassinated.
+
+
+## Knowledge in Avalon
+
+- **Initial Knowledge**
+
+- **Determine Quest Leader**
+
+- **Choose Quest Team**
+  - **Team Good**
+
+  - **Team Evil**
+
+  - **Merlin**
+
+- **Voting on Quest Team**
+  - **Team Good**
+
+  - **Team Evil**
+
+  - **Merlin**
+
+- **Pass or Fail Quest**
+  - **Team Good**
+
+  - **Team Evil**
+
+  - **Merlin**
+
+- **Updating Knowledge Based On Public Announcements And Reasoning**
+  - **Team Good**
+
+  - **Team Evil**
+
+  - **Merlin**

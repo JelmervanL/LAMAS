@@ -35,3 +35,12 @@ can vary depending on quest number, which is determined as follows:
 3                 | 2
 4                 | 3
 5                 | 3
+
+Players can vote on the team compositions of the quest teams proposed by
+the party leader. If the majority approves the players go on the quest, if five
+party propositions are rejected in a row the quest is failed automatically and a
+new round begins.
+After team Good has completed three quests, team Evil gets one more chance
+at victory. If they manage to determine who Merlin is, who might have revealed
+himself by sharing his knowledge too blatantly, they can assassinate him and
+win the game. The Assassin character has the final say who gets assassinated

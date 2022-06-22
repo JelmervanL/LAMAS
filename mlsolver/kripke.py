@@ -72,6 +72,7 @@ class KripkeStructure:
         """
         nodes_not_follow_formula = []
         for nodes in self.worlds:
+            # print(nodes)
             if not formula.semantic(self, nodes.name):
                 nodes_not_follow_formula.append(nodes.name)
         return nodes_not_follow_formula

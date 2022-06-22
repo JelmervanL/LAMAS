@@ -52,6 +52,94 @@ class WiseMenWithHat:
         self.knowledge_base.append(Box_a('3', Atom('3:R')))
 
 
+class Avalon:
+    
+    def __init__(self, num_agents = 5):
+
+        self.kripke_worlds, self.worlds = self.generate_all_possible_worlds(num_agents)
+        self.relations = self.generate_all_relations(num_agents, self.worlds)
+        self.relations.update(add_reflexive_edges(self.kripke_worlds, self.relations))
+        self.relations.update(add_symmetric_edges(self.relations))
+        self.kripke_structure = KripkeStructure(self.kripke_worlds, self.relations)
+
+    def role_of_agent(self, agent, evil1, evil2, merlin):
+        if agent == evil1 or agent == evil2:
+            return True, False
+        elif agent == merlin:
+            return False, True
+        return False, False
+
+
+    def generate_all_possible_worlds(self, num_agents):
+        all_worlds = []
+        for evil1 in range(1, num_agents):
+          for evil2 in range(evil1 + 1, num_agents + 1):
+            for merlin in range(1, num_agents + 1):
+              if merlin != evil1 and merlin != evil2:
+                world = (('e',(evil1, evil2)),('m', merlin))
+                all_worlds.append(world)
+
+        worlds = []
+        for idx in range(len(all_worlds)):
+            current_world = all_worlds[idx]
+            e1 = m1 = e2 = m2 = e3 = m3 = e4 = m4 = e5 = m5 = False
+            evil1 = current_world[0][1][0]
+            evil2 = current_world[0][1][1]
+            merlin = current_world[1][1]
+
+            #Determine roles of agents in this world
+            e1, m1 = self.role_of_agent(1, evil1, evil2, merlin)
+            e2, m2 = self.role_of_agent(2, evil1, evil2, merlin)
+            e3, m3 = self.role_of_agent(3, evil1, evil2, merlin)
+            e4, m4 = self.role_of_agent(4, evil1, evil2, merlin)
+            e5, m5 = self.role_of_agent(5, evil1, evil2, merlin)
+            # print(str(idx), {'e1': e1, 'm1': m1, 'e2': e2, 'm2': m2, 'e3': e3, 'm3': m3, 'e4': e4, 'm4': m4, 'e5': e5, 'm5': m5})
+            worlds.append(World(str(idx), {'e1': e1, 'm1': m1, 'e2': e2, 'm2': m2, 'e3': e3, 'm3': m3, 'e4': e4, 'm4': m4, 'e5': e5, 'm5': m5}))
+        return worlds, all_worlds
+
+    def generate_all_relations(self, num_agents, worlds):
+        #Create a dictionary with all relations of agents. Each item in the dictionary contains the relations of a single agent
+        relations = {}
+        for idx in range(1, num_agents + 1):
+            relations[str(idx)] = []
+
+        #Get roles in first world
+        for first_world_idx in range(len(worlds) - 1):
+            first_world = worlds[first_world_idx]
+            evil_in_first_world = (first_world[0][1][0], first_world[0][1][1])
+            is_merlin_in_1 = first_world[1][1]
+            good_in_first_world = list(range(1, num_agents + 1))
+            good_in_first_world.remove(is_merlin_in_1)
+            good_in_first_world.remove(evil_in_first_world[0])
+            good_in_first_world.remove(evil_in_first_world[1])
+            #Get roles in second world
+            for second_world_idx in range(first_world_idx + 1, len(worlds)):
+                second_world = worlds[second_world_idx]
+                evil_in_second_world = (second_world[0][1][0], second_world[0][1][1])
+                is_merlin_in_2 = second_world[1][1]
+                good_in_second_world = list(range(1, num_agents + 1))
+                good_in_second_world.remove(is_merlin_in_2)
+                good_in_second_world.remove(evil_in_second_world[0])
+                good_in_second_world.remove(evil_in_second_world[1])
+                #Check if the same agents are evil in both worlds
+                if evil_in_first_world[0] in evil_in_second_world and evil_in_first_world[1] in evil_in_second_world:
+                    relations[str(evil_in_first_world[0])].append((str(first_world_idx), str(second_world_idx)))
+                    relations[str(evil_in_first_world[1])].append((str(first_world_idx), str(second_world_idx)))
+                #Create relations of the agents that are good
+                for idx in range(len(good_in_first_world)):
+                    if good_in_first_world[idx] in good_in_second_world:
+                        relations[str(good_in_first_world[idx])].append((str(first_world_idx), str(second_world_idx)))
+                #Merlin knows the true world so he has no relations other than reflexive
+        #Convert to sets to have the structure needed for mlsolver and adding symmetric/reflexive edges
+        for idx in range(len(relations)):
+            relations[str(idx + 1)] = set(relations[str(idx + 1)])
+        return relations        
+
+
+
+
+
+
 def add_symmetric_edges(relations):
     """Routine adds symmetric edges to Kripke frame
     """
@@ -75,3 +163,11 @@ def add_reflexive_edges(worlds, relations):
             result_agents.add((world.name, world.name))
             result[agent] = result_agents
     return result
+
+
+# if __name__ == "__main__":
+#     avalon = Avalon()
+#     for idx in range(len(avalon.relations)):
+#         print("Relations of agent:" + str(idx + 1))
+#         print(avalon.relations[str(idx + 1)])
+

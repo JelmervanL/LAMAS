@@ -8,11 +8,15 @@ from mlsolver.formula import *
 
 num_agents = 5
 kripke_model = Avalon(num_agents)
-formula = And(Box_a(str(1), Atom("e3")), And(Not(Atom("e1")), Not(Atom("m1"))))
+# formula = And(Box_a(str(1), Atom("e3")), And(Not(Atom("e1")), Not(Atom("m1"))))
 # print(formula)
 # nodes = kripke_model.kripke_structure.nodes_not_follow_formula(formula)
 # print(len(nodes))
 
-formula = And(Atom("e3"), Atom("e4"))
+
+
+###Public announcement that agent 3 and agent 4 are evil and thus also not merlin
+###A public anouncement like this can be made after both agents on a quest have played a fail card
+formula = And(And(Atom("e3"), Atom("e4")), And(Not(Atom("m3")), Not(Atom("m4"))))
 kripke_model.kripke_structure = kripke_model.kripke_structure.solve(formula)
 print(len(kripke_model.kripke_structure.worlds))

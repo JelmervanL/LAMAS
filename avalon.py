@@ -17,6 +17,8 @@ kripke_model = Avalon(num_agents)
 
 ###Public announcement that agent 3 and agent 4 are evil and thus also not merlin
 ###A public anouncement like this can be made after both agents on a quest have played a fail card
-formula = And(And(Atom("e3"), Atom("e4")), And(Not(Atom("m3")), Not(Atom("m4"))))
+print(len(kripke_model.kripke_structure.worlds))
+formula = Or(Atom("e3"), Atom("e4"))
 kripke_model.kripke_structure = kripke_model.kripke_structure.solve(formula)
 print(len(kripke_model.kripke_structure.worlds))
+

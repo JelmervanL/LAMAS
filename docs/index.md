@@ -135,7 +135,7 @@ win the game.
     to send on a quest.
 
 
-- **Voting on Quest Team**  
+- **Voting on Quest Party**  
   When a party is proposed by the party leader, each agent in the game
   votes whether they want that chosen party to go on the quest or not. How
   each agent votes depends on whether they belong to team Good, team

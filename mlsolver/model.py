@@ -69,45 +69,45 @@ class Avalon:
 
     def generate_all_possible_worlds(self, num_agents):
         all_worlds = []
-        for evil1 in range(1, num_agents):
-          for evil2 in range(evil1 + 1, num_agents + 1):
+        for evil1 in range(num_agents - 1):
+          for evil2 in range(evil1 + 1, num_agents):
             world = ('e',(evil1, evil2))
             all_worlds.append(world)
 
         worlds = []
         for idx in range(len(all_worlds)):
             current_world = all_worlds[idx]
-            e1 = e2 = e3 = e4 = e5  = False
+            e0 = e1 = e2 = e3 = e4  = False
             evil1 = current_world[1][0]
             evil2 = current_world[1][1]
 
             #Determine roles of agents in this world
+            e0 = self.role_of_agent(0, evil1, evil2)
             e1 = self.role_of_agent(1, evil1, evil2)
             e2 = self.role_of_agent(2, evil1, evil2)
             e3 = self.role_of_agent(3, evil1, evil2)
             e4 = self.role_of_agent(4, evil1, evil2)
-            e5 = self.role_of_agent(5, evil1, evil2)
-            worlds.append(World(str(idx), {'e1': e1, 'e2': e2, 'e3': e3, 'e4': e4, 'e5': e5}))
+            worlds.append(World(str(idx), {'e0': e0, 'e1': e1, 'e2': e2, 'e3': e3, 'e4': e4}))
         return worlds, all_worlds
 
     def generate_all_relations(self, num_agents, worlds):
         #Create a dictionary with all relations of agents. Each item in the dictionary contains the relations of a single agent
         relations = {}
-        for idx in range(1, num_agents + 1):
+        for idx in range(num_agents):
             relations[str(idx)] = []
 
         #Get roles in first world
         for first_world_idx in range(len(worlds) - 1):
             first_world = worlds[first_world_idx]
             evil_in_first_world = (first_world[1][0], first_world[1][1])
-            good_in_first_world = list(range(1, num_agents + 1))
+            good_in_first_world = list(range(num_agents))
             good_in_first_world.remove(evil_in_first_world[0])
             good_in_first_world.remove(evil_in_first_world[1])
             #Get roles in second world
             for second_world_idx in range(first_world_idx + 1, len(worlds)):
                 second_world = worlds[second_world_idx]
                 evil_in_second_world = (second_world[1][0], second_world[1][1])
-                good_in_second_world = list(range(1, num_agents + 1))
+                good_in_second_world = list(range(num_agents))
                 good_in_second_world.remove(evil_in_second_world[0])
                 good_in_second_world.remove(evil_in_second_world[1])
                 #Check if the same agents are evil in both worlds
@@ -120,7 +120,7 @@ class Avalon:
                         relations[str(good_in_first_world[idx])].append((str(first_world_idx), str(second_world_idx)))
         #Convert to sets to have the structure needed for mlsolver and adding symmetric/reflexive edges
         for idx in range(len(relations)):
-            relations[str(idx + 1)] = set(relations[str(idx + 1)])
+            relations[str(idx)] = set(relations[str(idx)])
         return relations    
 
     ### Below are the functions to generate worlds and relations with the inclusion of Merlin in the game ###    

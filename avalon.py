@@ -14,19 +14,24 @@ from copy import deepcopy
 # kripke_model.kripke_structure = kripke_model.kripke_structure.solve(formula)
 # print(len(kripke_model.kripke_structure.worlds))
 
-def determine_party_leader(agents):
+def determine_party_leader(agents, round_number):
   #Check if first round, if so pick a random agent, otherwise pick the next agent
-  first_round = True
+  first_round = False
+  if round_number == 1:
+    first_round = True
+
   for idx in range(len(agents)):
     if agents[idx].is_party_leader == True:
       if idx != 4:
         agents[idx].is_party_leader = False
         agents[idx + 1].is_party_leader = True
         party_leader_idx = idx + 1
+        break
       else:
         agents[idx].is_party_leader = False
         agents[0].is_party_leader = True
         party_leader_idx = 0
+        break
   if first_round == True:
     party_leader_idx = rand.randint(0, 4)
     agents[party_leader_idx].is_party_leader = True
@@ -159,9 +164,6 @@ def choose_quest_party(kripke_model, agents, good_agents, evil_agents, party_lea
         random_agent = agents_to_consider[rand.randint(0, len(agents_to_consider) - 1)]
         agents[random_agent].is_in_quest_party = True
         
-
-
-
 def voting_on_quest_party(kripke_model, agents, good_agents, evil_agents):
   quest_party = []
   #Collect all agents that are in the quest party
@@ -299,7 +301,7 @@ def go_on_quest(kripke_model, agents, good_agents, evil_agents, party_size, roun
           if not played_pass_card: 
             fail_card += 1
 
-  return (pass_card, fail_card)
+  return pass_card, fail_card
 
 def update_knowledge():
   return
@@ -320,12 +322,43 @@ for idx in range(num_agents):
     agents.append(Good_agent(idx))
     good_agents.append(idx)
 
-current_party_leader = determine_party_leader(agents)
-print(current_party_leader)
-# current_party_leader = 0
-choose_quest_party(kripke_model, agents, good_agents, evil_agents, current_party_leader, party_size = 3)
+# current_party_leader = determine_party_leader(agents)
+# print(current_party_leader)
+# # current_party_leader = 0
+# choose_quest_party(kripke_model, agents, good_agents, evil_agents, current_party_leader, party_size = 2)
 
-for idx in range(len(agents)):
-  print("Agent " + str(idx) + " is evil: " + str(agents[idx].is_evil) +  " and on quest = " + str(agents[idx].is_in_quest_party))
-print(voting_on_quest_party(kripke_model, agents, good_agents, evil_agents))
-print(go_on_quest(kripke_model, agents, good_agents, evil_agents, party_size = 3, round_number = 1))
+# for idx in range(len(agents)):
+#   print("Agent " + str(idx) + " is evil: " + str(agents[idx].is_evil) +  " and on quest = " + str(agents[idx].is_in_quest_party))
+# print(voting_on_quest_party(kripke_model, agents, good_agents, evil_agents))
+# print(go_on_quest(kripke_model, agents, good_agents, evil_agents, party_size = 2, round_number = 1))
+
+party_sizes = [2, 3, 2, 3, 3]
+evil_wins = 0
+good_wins = 0
+
+for round_number in range(1, 6):
+  party_size = party_sizes[round_number-1]
+  current_party_leader = determine_party_leader(agents, round_number=round_number)
+  print("pary leader: ", current_party_leader)
+  choose_quest_party(kripke_model, agents, good_agents, evil_agents, current_party_leader, party_size = party_size)
+  if voting_on_quest_party(kripke_model, agents, good_agents, evil_agents):
+    num_pass, num_fail = go_on_quest(kripke_model, agents, good_agents, evil_agents, party_size = party_size, round_number = round_number)
+    if num_fail > 0:
+      evil_wins += 1
+    else: 
+      good_wins += 1
+
+print("evil_wins", evil_wins)
+print("good_wins", good_wins)
+
+
+
+
+  
+
+
+
+
+
+
+

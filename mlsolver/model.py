@@ -121,7 +121,19 @@ class Avalon:
         #Convert to sets to have the structure needed for mlsolver and adding symmetric/reflexive edges
         for idx in range(len(relations)):
             relations[str(idx)] = set(relations[str(idx)])
-        return relations    
+        return relations   
+
+
+    def create_merlin(self, agent):
+        merlin_relations = []
+        for idx in range(len(self.worlds)):
+            merlin_relations.append((str(idx), str(idx)))
+            self.relations[str(agent)] = set(merlin_relations)
+        # for idx in range(5):
+        #     print(self.relations[str(idx)])
+        self.kripke_structure = KripkeStructure(self.kripke_worlds, self.relations)
+        # print(self.relations[str(agent)])
+
 
     ### Below are the functions to generate worlds and relations with the inclusion of Merlin in the game ###    
 
@@ -197,6 +209,7 @@ class Avalon:
     #     for idx in range(len(relations)):
     #         relations[str(idx + 1)] = set(relations[str(idx + 1)])
     #     return relations        
+
 
 
 def add_symmetric_edges(relations):

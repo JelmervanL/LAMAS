@@ -334,7 +334,7 @@ def update_knowledge(kripke_model, agents, num_pass, num_fail, party_size):
   new_kripke_model_structure = kripke_model.kripke_structure.solve(public_announcement)
 
   return new_kripke_model_structure # 'dont know for sure if this return is good, since it return the kripke structure, while for the other functions the input are the kripke worlds. Not sure if the worlds get changed based on the new kripke structure.
-  
+
 
 ####MAIN####
 
@@ -365,9 +365,10 @@ evil_wins = 0
 good_wins = 0
 
 for round_number in range(1, 6):
+  print("len kripke structure:", len(kripke_model.kripke_structure.worlds))
   party_size = party_sizes[round_number-1]
   current_party_leader = determine_party_leader(agents, round_number=round_number)
-  print("pary leader: ", current_party_leader)
+  print("party leader: ", current_party_leader)
   choose_quest_party(kripke_model, agents, good_agents, evil_agents, current_party_leader, party_size = party_size)
   # if voting_on_quest_party(kripke_model, agents, good_agents, evil_agents):
   num_pass, num_fail = go_on_quest(kripke_model, agents, good_agents, evil_agents, party_size = party_size, round_number = round_number)

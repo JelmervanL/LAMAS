@@ -48,14 +48,14 @@ def choose_quest_party(kripke_model, agents, good_agents, evil_agents, party_lea
   for good_agent in good_agents:
     #good agent knows that an evil agent is evil, and he himself is not evil
     formula1 = And(Box_a(str(good_agent), Atom('e' + str(evil_agents[0]))), Not(Atom('e' + str(good_agent))))
-    formula2 = And(Box_a(str(good_agent), Atom('e' + str(evil_agents[1]))), Not(Atom('e' + str(good_agent))))
+    formula2 = And(Box_a(str(good_agent), Atom('e' + str(evil_agents[1]))), Not(Atom('e' + str(good_agent))))        
     #Get nodes in current kripke structure where the previous formulas is not satisfiable
     nodes1 = kripke_model.kripke_structure.nodes_not_follow_formula(formula1)
     nodes2 = kripke_model.kripke_structure.nodes_not_follow_formula(formula2)
     #Check if good agent actually knows this
     if len(nodes1) < len(kripke_model.kripke_structure.worlds):
       knows_is_evil1.append(good_agent)
-    if len(nodes1) < len(kripke_model.kripke_structure.worlds):
+    if len(nodes2) < len(kripke_model.kripke_structure.worlds):
       knows_is_evil2.append(good_agent)
   #Case where party leader is evil
   if party_leader_idx in evil_agents:
@@ -234,10 +234,9 @@ def go_on_quest(kripke_model, agents, good_agents, evil_agents, party_size, roun
     if agent1 in good_agents:
       pass_card += 1
 
-    #Evil agent play fail card unless they reveal both identities to at least one agent on team good 
-    elif not higher_order_evil:
+    elif not higher_order_evil and agent1 in evil_agents: # when not using higher order knowdlegde, evil agents always play a fail card
       fail_card += 1
-    else:
+    else: #Evil agent play fail card unless they reveal both identities to at least one agent on team good 
       if round_number == 5 or evil_wins == 2:
         fail_card += 1
       elif party_size == 2:
@@ -312,8 +311,7 @@ def go_on_quest(kripke_model, agents, good_agents, evil_agents, party_size, roun
   return pass_card, fail_card
 
 
-
-def update_knowledge(kripke_model, agents, num_pass, num_fail, party_size):
+def update_knowledge(kripke_model, agents, num_pass, num_fail, party_size, round_number, higher_order_evil):
   # Make public announcement for result of the quest using the number of pasa and fail cards
 
   #Collect all agents that are in the quest party
@@ -321,15 +319,22 @@ def update_knowledge(kripke_model, agents, num_pass, num_fail, party_size):
   for idx in range(len(agents)):
     if agents[idx].is_in_quest_party:
       quest_party.append(idx)
+
   # Determine public announcement depending on results of quest
   if num_pass == 0 and num_fail > 0: # If only fail cards are played, meaning all agents on quest must be evil
     if party_size == 2:
       public_announcement = And(Atom("e" + str(quest_party[0])), Atom("e" + str(quest_party[1])))
   #No knowledge increased, no one sabotaged
-  elif num_fail == 0 and num_pass > 0: # If only pass cards are played, any agent can be evil. DO WE IMPLEMENT IF EVIL HIGHER ORDER KNOWLEDGE CAN BE TURNED ON OR OFF? THEN THIS IF STATEMENT HAS TO BE CHANGED. IF SET TO OFF THE ANNOUNCENMENT SHOULD BE THAT NO ONE IN THE MISSION IS EVIL.
-    public_announcement = And(Not(Atom("e" + str(quest_party[0]))), Not(Atom("e" + str(quest_party[1]))))
-    # print("No knowledge increase")
-    # return kripke_model.kripke_structure
+  elif num_fail == 0 and num_pass > 0: # If only pass cards are played
+    if higher_order_evil: # Evil agents use higher order knowledge, so they can play pass cards
+        return kripke_model.kripke_structure
+    elif higher_order_evil and round_number == 1:
+      public_announcement = And(Not(Atom("e" + str(quest_party[0]))), Not(Atom("e" + str(quest_party[1]))))
+    elif not higher_order_evil: # no higher order knowledge, so evil agents always play fail cards
+      if party_size == 2:
+        public_announcement = And(Not(Atom("e" + str(quest_party[0]))), Not(Atom("e" + str(quest_party[1]))))
+      else: # party size is 3
+        public_announcement = And(And(Not(Atom("e" + str(quest_party[0]))), Not(Atom("e" + str(quest_party[1])))), Not(Atom("e" + str(quest_party[2]))))
 
   elif num_pass > 0 and num_fail > 0: # both fail and pass cards are played, so one or two of the agents in the quest (depending on party size) can be evil
     if num_fail == 1:
@@ -342,7 +347,7 @@ def update_knowledge(kripke_model, agents, num_pass, num_fail, party_size):
 
   # kripke_model.kripke_structure.solve(public_announcement)
   # print(public_announcement)
-  return kripke_model.kripke_structure.solve(public_announcement) # 'dont know for sure if this return is good, since it return the kripke structure, while for the other functions the input are the kripke worlds. Not sure if the worlds get changed based on the new kripke structure.
+  return kripke_model.kripke_structure.solve(public_announcement) 
 
 
 ####MAIN####
@@ -384,8 +389,16 @@ def run_game(merlin, higher_order_evil):
     # print("len kripke structure:", len(kripke_model.kripke_structure.worlds))
     party_size = party_sizes[round_number-1]
     current_party_leader = determine_party_leader(agents, round_number=round_number)
+
     # print("party leader: ", current_party_leader)
     choose_quest_party(kripke_model, agents, good_agents, evil_agents, current_party_leader, party_size = party_size)
+    #Collect all agents that are in the quest party
+    quest_party = []
+    for idx in range(len(agents)):
+      if agents[idx].is_in_quest_party:
+        quest_party.append(idx)
+    print(quest_party)
+    print(party_size)
     if voting_on_quest_party(kripke_model, agents, good_agents, evil_agents, failed_quest_teams):
       num_pass, num_fail = go_on_quest(kripke_model, agents, good_agents, evil_agents, party_size = party_size, round_number = round_number, evil_wins = evil_wins, higher_order_evil = higher_order_evil)
     else:
@@ -405,7 +418,11 @@ def run_game(merlin, higher_order_evil):
       evil_wins += 1
     else: 
       good_wins += 1
-    kripke_model.kripke_structure = update_knowledge(kripke_model, agents, num_pass, num_fail, party_size)
+
+    
+
+    kripke_model.kripke_structure = update_knowledge(kripke_model, agents, num_pass, num_fail, party_size, round_number, higher_order_evil)
+    
     if(evil_wins == 3):
       # print("Team Evil won in round: " + str(round_number))
       return False, True, round_number

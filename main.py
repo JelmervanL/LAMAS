@@ -2,8 +2,8 @@ from avalon import *
 
 if __name__ == "__main__":
   num_games = 100
-  merlin = True
-  higher_order_evil = True
+  merlin = False
+  higher_order_evil = False
   num_good_wins = 0
   num_evil_wins = 0
   round_lengths = []

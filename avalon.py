@@ -42,6 +42,7 @@ def choose_quest_party(kripke_model, agents, good_agents, evil_agents, party_lea
   for idx in range(len(agents)):
     agents[idx].is_in_quest_party = False
 
+  quest_party = []
   #Determine the knowledge of good agents of evil agents
   knows_is_evil1 = []
   knows_is_evil2 = []
@@ -87,6 +88,7 @@ def choose_quest_party(kripke_model, agents, good_agents, evil_agents, party_lea
         if len(nodes) < len(kripke_model.kripke_structure.worlds):
           knows_is_good.append(good_agent)
     sent_agents = 0
+    # print("good party leader knows this amount of agents are good: " + str(len(knows_is_good)))
     #If party size is 2
     if party_size == 2:
       #Prune this list, based on people already sent (which are good) and evil agents
@@ -123,6 +125,7 @@ def choose_quest_party(kripke_model, agents, good_agents, evil_agents, party_lea
         agents[agents_to_send[0]].is_in_quest_party = True
         agents[agents_to_send[1]].is_in_quest_party = True
         agents[agents_to_send[2]].is_in_quest_party = True
+        
         sent_agents = 3
 
       #Party leader knows identity of 2 good agents, adds them to quest team and removes them from agents to consider further
@@ -130,10 +133,11 @@ def choose_quest_party(kripke_model, agents, good_agents, evil_agents, party_lea
         agents_to_send = rand.sample(knows_is_good, 2)
         agents[agents_to_send[0]].is_in_quest_party = True
         agents[agents_to_send[1]].is_in_quest_party = True
+        agents_to_consider.remove(agents_to_send[0])
+        agents_to_consider.remove(agents_to_send[1])
         sent_agents = 2
       #Party leader knows only of himself, adds himself to quest team and removes himself from agents to consider further
       elif len(knows_is_good) == 1:
-        agents_to_consider
         agents[knows_is_good[0]].is_in_quest_party = True
         agents_to_consider.remove(knows_is_good[0])
         sent_agents = 1
@@ -147,7 +151,6 @@ def choose_quest_party(kripke_model, agents, good_agents, evil_agents, party_lea
           agents_to_consider.remove(evil_agents[1])
         #Send a random agent on the quest from the party leaders list of considered agents
         agents[agents_to_consider[rand.randint(0, len(agents_to_consider) - 1)]].is_in_quest_party = True
-
       #If party is not full, 2 spots open 
       elif sent_agents == 1:
         #Remove agents that the party leader knows are evil from agents to consider sending on quest
@@ -185,10 +188,10 @@ def voting_on_quest_party(kripke_model, agents, good_agents, evil_agents, failed
       #Agent voting is evil, no need to work with mlsolver as evil agents already know everyones role
       if idx in evil_agents:
         #Entire quest party filled with evil agents is too dangerous as neither can confidently fail a quest without possibly revealing both identities
-        if evil_agents[0] in quest_party and evil_agents[1] in quest_party and len(quest_party) == 2:
-          votes_against += 1
+        # if evil_agents[0] in quest_party and evil_agents[1] in quest_party and len(quest_party) == 2:
+        #   votes_against += 1
         #If an evil agent is in the quest party, vote in favour
-        elif evil_agents[0] in quest_party or evil_agents[1] in quest_party:
+        if evil_agents[0] in quest_party or evil_agents[1] in quest_party:
           votes_in_favour += 1
         #Only good agents in quest party, vote against
         else:
@@ -198,24 +201,26 @@ def voting_on_quest_party(kripke_model, agents, good_agents, evil_agents, failed
         agent_voted = False
         #Check knowledge of good agent to see if he knows an evil member is in quest party
         for agent in quest_party:
-          #No need to check if good agent knows he is good
-          if agent != idx:
+          #No need to check if good agent knows he is good MISS FOUT DAT WE  NIET NAAR GOOD AGENTS KIJKEN
+          if agent != idx and agent in evil_agents:
             #Check if good agent knows of an agent if he is evil
             formula = And(Box_a(str(idx), Atom('e' + str(agent))), Not(Atom('e' + str(idx))))
             nodes = kripke_model.kripke_structure.nodes_not_follow_formula(formula)
             #If a good agent 
             if len(nodes) < len(kripke_model.kripke_structure.worlds):
               votes_against += 1
-              # print("Good Agent voted against = " +str(idx))
+              # votes_in_favour += 1
+              # print("Good Agent " + str(idx) + " in against: " + str(agent))
               agent_voted = True
               break
         #Agent does not know if an evil agent is on the team
         if not agent_voted:
           votes_in_favour += 1
-  # print("votes in favour: " + str(votes_in_favour))
-  # print("votes against: " + str(votes_against))
+ 
 
   if votes_in_favour > votes_against:
+    # print("votes in favour: " + str(votes_in_favour))
+    # print("votes against: " + str(votes_against))
     return True 
   else:
     return False
@@ -351,7 +356,7 @@ def update_knowledge(kripke_model, agents, num_pass, num_fail, party_size, round
 
 
 ####MAIN####
-def run_game(merlin, higher_order_evil):
+def run_game(merlin, higher_order_evil, evil_agents_assasinate):
   num_agents = 5
   kripke_model = Avalon(num_agents)
   evil_agents = rand.sample(range(5), 2)
@@ -367,8 +372,8 @@ def run_game(merlin, higher_order_evil):
     # formula = Box_a(good_agents[0], And(Atom('e' + str(evil_agents[0])), Atom('e' + str(evil_agents[1]))))
     # kripke_model.kripke_structure = kripke_model.kripke_structure.solve(formula)
     kripke_model.create_merlin(good_agents[0])
-    kripke_model.create_merlin(good_agents[1])
-    kripke_model.create_merlin(good_agents[2])
+    # kripke_model.create_merlin(good_agents[1])
+    # kripke_model.create_merlin(good_agents[2])
 
   # current_party_leader = determine_party_leader(agents, round_number=1)
   # print("party leader:", current_party_leader)
@@ -390,19 +395,19 @@ def run_game(merlin, higher_order_evil):
     party_size = party_sizes[round_number-1]
     current_party_leader = determine_party_leader(agents, round_number=round_number)
 
-    # print("party leader: ", current_party_leader)
+    # print("party leader: ", current_party_leader)    
+    # print("Party leader Good = " + str(current_party_leader in good_agents))
     choose_quest_party(kripke_model, agents, good_agents, evil_agents, current_party_leader, party_size = party_size)
-    #Collect all agents that are in the quest party
-    quest_party = []
-    for idx in range(len(agents)):
-      if agents[idx].is_in_quest_party:
-        quest_party.append(idx)
-    print(quest_party)
-    print(party_size)
+
     if voting_on_quest_party(kripke_model, agents, good_agents, evil_agents, failed_quest_teams):
       num_pass, num_fail = go_on_quest(kripke_model, agents, good_agents, evil_agents, party_size = party_size, round_number = round_number, evil_wins = evil_wins, higher_order_evil = higher_order_evil)
     else:
-      failed_quest_teams += 1
+      # failed_quest_teams += 1
+      # quest_party = []
+      # for idx in range(len(agents)):
+      #   if agents[idx].is_in_quest_party:
+      #     quest_party.append(idx)
+      # print(quest_party)
       while(True):
         current_party_leader = determine_party_leader(agents, round_number=round_number)
         # print("party leader: ", current_party_leader)
@@ -427,6 +432,11 @@ def run_game(merlin, higher_order_evil):
       # print("Team Evil won in round: " + str(round_number))
       return False, True, round_number
     if(good_wins == 3):
+      if merlin and evil_agents_assasinate:
+        #Random chance for evil agents to kill merlin
+        random_chance_to_kill_merlin = rand.randint(1,3)
+        if random_chance_to_kill_merlin == 1:
+          return False, True, round_number
       # print("Team Good won in round: " + str(round_number))
       return True, False, round_number
     # update_knowledge(kripke_model, agents, num_pass, num_fail, party_size)

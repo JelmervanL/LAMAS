@@ -123,16 +123,13 @@ class Avalon:
             relations[str(idx)] = set(relations[str(idx)])
         return relations   
 
-
+    #Change the relations of one agent to only reflexive relations as this agent knows the true gameworld
     def create_merlin(self, agent):
         merlin_relations = []
         for idx in range(len(self.worlds)):
             merlin_relations.append((str(idx), str(idx)))
             self.relations[str(agent)] = set(merlin_relations)
-        # for idx in range(5):
-        #     print(self.relations[str(idx)])
         self.kripke_structure = KripkeStructure(self.kripke_worlds, self.relations)
-        # print(self.relations[str(agent)])
 
 
     ### Below are the functions to generate worlds and relations with the inclusion of Merlin in the game ###    

@@ -14,6 +14,15 @@ if __name__ == "__main__":
   higher_order_evil = args.higher_order_evil
   evil_agents_assasinate =  args.evil_agents_assasinate
 
+  num_games = 100
+  merlin = False
+  higher_order_evil = True
+  evil_agents_assasinate =  False
+
+  # print(merlin)
+  # print(higher_order_evil)
+  # print(evil_agents_assasinate)
+
   num_good_wins = 0
   num_evil_wins = 0
   round_lengths = []

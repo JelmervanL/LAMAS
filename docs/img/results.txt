@@ -1,0 +1,99 @@
+Parameters of simulation
+Number of simulated games: 1000
+Simplified Merlin in the game: False
+Evil agents use higher order knowdledge: False
+Evil players can assasinate Merlin at the end of game: False
+----------------------------------
+Start simulation
+----------------------------------
+Results of simulation
+Good winrate: 0.46
+Evil winrate: 0.54
+average number of rounds all games: 3.765
+average number of rounds in games where Good won: 4.26
+average number of rounds in games where Evil won: 3.34
+
+###
+
+Parameters of simulation
+Number of simulated games: 1000
+Simplified Merlin in the game: True
+Evil agents use higher order knowdledge: False
+Evil players can assasinate Merlin at the end of game: False
+----------------------------------
+Start simulation
+----------------------------------
+Results of simulation
+Good winrate: 0.69
+Evil winrate: 0.31
+average number of rounds all games: 3.975
+average number of rounds in games where Good won: 4.17
+average number of rounds in games where Evil won: 3.53
+
+###
+
+Parameters of simulation
+Number of simulated games: 1000
+Simplified Merlin in the game: False
+Evil agents use higher order knowdledge: True
+Evil players can assasinate Merlin at the end of game: False
+----------------------------------
+Start simulation
+----------------------------------
+Results of simulation
+Good winrate: 0.05
+Evil winrate: 0.95
+average number of rounds all games: 3.865
+average number of rounds in games where Good won: 4.35
+average number of rounds in games where Evil won: 3.84
+
+###
+
+Parameters of simulation
+Number of simulated games: 1000
+Simplified Merlin in the game: True
+Evil agents use higher order knowdledge: True
+Evil players can assasinate Merlin at the end of game: False
+----------------------------------
+Start simulation
+----------------------------------
+Results of simulation
+Good winrate: 0.13
+Evil winrate: 0.87
+average number of rounds all games: 4.18
+average number of rounds in games where Good won: 4.39
+average number of rounds in games where Evil won: 4.15
+
+###
+
+Parameters of simulation
+Number of simulated games: 1000
+Simplified Merlin in the game: True
+Evil agents use higher order knowdledge: False
+Evil players can assasinate Merlin at the end of game: True
+----------------------------------
+Start simulation
+----------------------------------
+Results of simulation
+Good winrate: 0.50
+Evil winrate: 0.50
+average number of rounds all games: 3.965
+average number of rounds in games where Good won: 4.12
+average number of rounds in games where Evil won: 3.81
+
+###
+
+Parameters of simulation
+Number of simulated games: 1000
+Simplified Merlin in the game: True
+Evil agents use higher order knowdledge: True
+Evil players can assasinate Merlin at the end of game: True
+----------------------------------
+Start simulation
+----------------------------------
+Results of simulation
+Good winrate: 0.10
+Evil winrate: 0.90
+average number of rounds all games: 4.198
+average number of rounds in games where Good won: 4.30
+average number of rounds in games where Evil won: 4.19

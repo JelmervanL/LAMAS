@@ -384,8 +384,6 @@ def run_game(merlin, higher_order_evil, evil_agents_assasinate):
     else: 
       good_wins += 1
 
-    
-
     kripke_model.kripke_structure = update_knowledge(kripke_model, agents, num_pass, num_fail, party_size, round_number, higher_order_evil)
     
     if(evil_wins == 3):

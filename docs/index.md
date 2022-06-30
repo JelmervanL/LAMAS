@@ -182,7 +182,7 @@ win the game.
     playing a fail card can result in the identity of both Evil members
     being discovered by a team Good member. If this can happen, they
     will choose a pass card instead of using a fail card, to hide the identities of team Evil.
-    The exception for this is if the Evil team only need 1 more failed quest to win. In this case there is no downside to sabotaging the quest as the game will
+    The exception to this is if the Evil team only need 1 more failed quest to win. In this case there is no downside to sabotaging the quest as the game will
     end afterwards, they will play a fail card regardless of what the resulting increase in knowledge for any good agent might be.
     
   - **Merlin**  

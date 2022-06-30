@@ -73,12 +73,12 @@ win the game.
     *K<sub> 4 </sub>* *K<sub> 3 </sub>* (*K<sub> 1 </sub>* ¬*e<sub> 1 </sub>* ∧ K<sub> 2 </sub> ¬*e<sub> 2 </sub>*  ∧ *K<sub> 5 </sub>* ¬*e<sub> 5 </sub>*)
     etc..
 
-    Anything known to one evil agent is also known to the other:
-    *K<sub> 3 </sub>* φ -> *K<sub> 4 </sub>* φ
-    *K<sub> 4 </sub>* φ -> *K<sub> 3 </sub>* φ
-    They also know that the other evil agent knows the same as they do:
-    *K<sub> 3 </sub>* φ -> *K<sub> 3 </sub>* *K<sub> 4 </sub>* φ
-    *K<sub> 4 </sub>* φ -> *K<sub> 4 </sub>* *K<sub> 3 </sub>* φ
+    Anything known to one evil agent is also known to the other:  
+    *K<sub> 3 </sub>* φ -> *K<sub> 4 </sub>* φ  
+    *K<sub> 4 </sub>* φ -> *K<sub> 3 </sub>* φ  
+    They also know that the other evil agent knows the same as they do:  
+    *K<sub> 3 </sub>* φ -> *K<sub> 3 </sub>* *K<sub> 4 </sub>* φ  
+    *K<sub> 4 </sub>* φ -> *K<sub> 4 </sub>* *K<sub> 3 </sub>* φ  
 
 
   - **Merlin**  

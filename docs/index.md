@@ -208,6 +208,7 @@ win the game.
     If a quest fails with all fail cards then the following announcement will be made:    
     [*e<sub> 1 </sub> ∧ e <sub> 2 </sub>*].  
     The same logic can be applied for quest were the quest party consists of three agents.
+    
   - **Team Evil**
     The knowledge of team Evil is reasoned based on the voting of team Good members 
     on quest party propositions. If an agent votes on a

@@ -363,11 +363,11 @@ players. This will be implemented using the Python programming language,
 using the mlsolver library for implementing the Kripke model and
 modelling the behaviour of the agents.
 
-| Merlin | Higher order Evil | Evil assassinate | Good Winrate | Evil Winrate | Average round length | Round length Good  | Round length Evil |
-|--------|-------------------|------------------|--------------|--------------|----------------------|--------------------|-------------------|
-|        |                   |                  |              |              |                      |                    |                   |
-|        |                   |                  |              |              |                      |                    |                   |
-|        |                   |                  |              |              |                      |                    |                   |
-|        |                   |                  |              |              |                      |                    |                   |
-|        |                   |                  |              |              |                      |                    |                   |
-|        |                   |                  |              |              |                      |                    |                   |
+| **Merlin** | **Higher Order Evil** | **Evil Can Assassinate** | **Good Winrate** | **Evil Winrate** | **Average Round Length** | **Round Length Good Won** | **Round Length Evil Won** |
+|------------|-----------------------|--------------------------|------------------|------------------|--------------------------|---------------------------|---------------------------|
+| _False_    | _False_               | _False_                  | 46%              | 54%              | 3.765                    | 4.26                      | 3.34                      |
+| _True_     | _False_               | _False_                  | 69%              | 31%              | 3.975                    | 4.17                      | 3.53                      |
+| _False_    | _True_                | _False_                  | 5%               | 95%              | 3.865                    | 4.35                      | 3.84                      |
+| _True_     | _True_                | _False_                  | 13%              | 87%              | 4.18                     | 4.39                      | 4.15                      |
+| _True_     | _False_               | _True_                   | 50%              | 50%              | 3.985                    | 4.12                      | 3.81                      |
+| _True_     | _True_                | _True_                   | 10%              | 90%              | 4.198                    | 4.3                       | 4.19                      |

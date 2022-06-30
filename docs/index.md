@@ -74,11 +74,11 @@ win the game.
     etc..
 
     Anything known to one evil agent is also known to the other:  
-    *K<sub> 3 </sub>* φ -> *K<sub> 4 </sub>* φ  
-    *K<sub> 4 </sub>* φ -> *K<sub> 3 </sub>* φ  
+    *K<sub> 3 </sub>* φ → *K<sub> 4 </sub>* φ  
+    *K<sub> 4 </sub>* φ → *K<sub> 3 </sub>* φ  
     They also know that the other evil agent knows the same as they do:  
-    *K<sub> 3 </sub>* φ -> *K<sub> 3 </sub>* *K<sub> 4 </sub>* φ  
-    *K<sub> 4 </sub>* φ -> *K<sub> 4 </sub>* *K<sub> 3 </sub>* φ  
+    *K<sub> 3 </sub>* φ → *K<sub> 3 </sub>* *K<sub> 4 </sub>* φ  
+    *K<sub> 4 </sub>* φ → *K<sub> 4 </sub>* *K<sub> 3 </sub>* φ  
 
 
   - **Merlin**  

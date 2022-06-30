@@ -177,7 +177,7 @@ win the game.
     on the quest.
 
   - **Team Evil**  
-      A team Evil member will want to play a fail card to fail the quest.
+    A team Evil member will want to play a fail card to fail the quest.
     However, a member of team Evil will take into consideration that
     playing a fail card can result in the identity of both Evil members
     being discovered by a team Good member. If this can happen, they
@@ -209,7 +209,7 @@ win the game.
     [*e<sub> 1 </sub> ∧ e <sub> 2 </sub>*].  
     The same logic can be applied for quest were the quest party consists of three agents.
     
-  - **Team Evil**
+  - **Team Evil**  
     The knowledge of team Evil is reasoned based on the voting of team Good members 
     on quest party propositions. If an agent votes on a
     quest party that consists of at least one member of team Evil, then

@@ -140,8 +140,7 @@ win the game.
 
   - **Merlin**  
     When the party leader is the Merlin it behaves the same as a team
-    Good member. Because Merlin knows the identity of all agents, Mer-
-    lin will only choose players randomly out of the group of team Good
+    Good member. Because Merlin knows the identity of all agents, Merlin will only choose players randomly out of the group of team Good
     to send on a quest.
 
 

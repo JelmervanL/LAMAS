@@ -363,11 +363,11 @@ players. This will be implemented using the Python programming language,
 using the mlsolver library for implementing the Kripke model and
 modelling the behaviour of the agents.
 
-| Num of games | Merlin | Higher order Evil | Evil assassinate | Good Winrate | Evil Winrate | Average round length | Round length Good  | Round length Evil |
-|--------------|--------|-------------------|------------------|--------------|--------------|----------------------|--------------------|-------------------|
-| 1000         |        |                   |                  |              |              |                      |                    |                   |
-| 1000         |        |                   |                  |              |              |                      |                    |                   |
-| 1000         |        |                   |                  |              |              |                      |                    |                   |
-| 1000         |        |                   |                  |              |              |                      |                    |                   |
-| 1000         |        |                   |                  |              |              |                      |                    |                   |
-| 1000         |        |                   |                  |              |              |                      |                    |                   |
+| Merlin | Higher order Evil | Evil assassinate | Good Winrate | Evil Winrate | Average round length | Round length Good  | Round length Evil |
+|--------|-------------------|------------------|--------------|--------------|----------------------|--------------------|-------------------|
+|        |                   |                  |              |              |                      |                    |                   |
+|        |                   |                  |              |              |                      |                    |                   |
+|        |                   |                  |              |              |                      |                    |                   |
+|        |                   |                  |              |              |                      |                    |                   |
+|        |                   |                  |              |              |                      |                    |                   |
+|        |                   |                  |              |              |                      |                    |                   |

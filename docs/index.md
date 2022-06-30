@@ -158,7 +158,7 @@ win the game.
   - **Team Evil**  
     Members of team Evil want to ensure that at least one evil agent is part of any quest party, so they will
     always agree if one member of team Evil is in the proposed quest
-    party. Otherwise they will disagree with the proposed quest party. If the quest party consists of only Evil agents (this can only happen in rounds 1 and 3), they will vote against it as it would force them to either not sabotage (which costs them a round), or reveal their identities.
+    party. Otherwise they will disagree with the proposed quest party. If the quest party consists of only Evil agents (this can only happen in rounds 1 and 3), they       will vote against it as it would force them to either not sabotage (which costs them a round), or reveal their identities.
 
   - **Merlin**  
     Merlin will use the same logic as a regular member of team Good,
@@ -182,6 +182,9 @@ win the game.
     playing a fail card can result in the identity of both Evil members
     being discovered by a team Good member. If this can happen, they
     will choose a pass card instead of using a fail card, to hide the identities of team Evil.
+    The exception for this is if the Evil team only need 1 more failed quest to win. In this case there is no downside to sabotaging the quest as the game will
+    end afterwards, they will play a fail card regardless of what the resulting increase in knowledge for any good agent might be.
+    
   - **Merlin**  
     For Merlin the behavior is the same as team Good. This means
     Merlin will always play the pass card when chosen on the quest.

@@ -156,9 +156,9 @@ win the game.
     with the proposed quest party.
 
   - **Team Evil**  
-    Members of team Evil want to be on the quest party, so they will
+    Members of team Evil want to ensure that at least one evil agent is part of any quest party, so they will
     always agree if one member of team Evil is in the proposed quest
-    party. Otherwise they will disagree with the proposed quest party.
+    party. Otherwise they will disagree with the proposed quest party. If the quest party consists of only Evil agents (this can only happen in rounds 1 and 3), they will vote against it as it would force them to either not sabotage (which costs them a round), or reveal their identities.
 
   - **Merlin**  
     Merlin will use the same logic as a regular member of team Good,

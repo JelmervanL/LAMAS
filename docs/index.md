@@ -27,7 +27,8 @@ at victory. If they manage to determine who Merlin is, who might have revealed
 himself by sharing his knowledge too blatantly, they can assassinate him and
 win the game. 
 
-Our implementation of this game is slightly simplified for practical purposes. The first simplification is that agents on team Good do not use the information provided by the voting of other players. Only members of team Evil will use this information to reason about the identity of Merlin. The second simplification is that agents will always according to their knowledge and reasoning. For example, agents of team Evil will never "randomly" lie to confuse players, which is something that happens often in the real game of Avalon. There also is no Evil agent that explicitly has the "Assassin" role, as with our implementation both Evil agents always have the same knowledge.
+Our implementation of this game is slightly simplified for practical purposes. The first simplification is that agents on team Good do not use the information provided by the voting of other players. Only members of team Evil will use this information to reason about the identity of Merlin. The second simplification is that agents will always according to their knowledge and reasoning. For example, agents of team Evil will never "randomly" lie to confuse players, which is something that happens often in the real game of Avalon. There also is no Evil agent that explicitly has the "Assassin" role, as with our implementation both Evil agents always have the same knowledge. The proposed quest party of the party leader is also not considered a public
+announcement about the knowledge of the party leader in our model.  
 
 ## Knowledge and reasoning in our implementation of Avalon
 
@@ -142,9 +143,7 @@ Our implementation of this game is slightly simplified for practical purposes. T
     party. Otherwise they will disagree with the proposed quest party. If the quest party consists of only Evil agents (this can only happen in rounds 1 and 3), they       will vote against it as it would force them to either not sabotage (which costs them a round), or reveal their identities.
 
   - **Merlin**  
-    Merlin will use the same logic as a regular member of team Good,
-    but can, depending on the version of Merlin used, choose to vote against
-    his knowledge and reasoning.
+    Merlin will use the same logic as a regular member of team Good.
     This means that
     Merlin will agree with a party proposition that consists of a member
     of team Evil. This is done as an attempt to stay hidden, giving the
@@ -171,13 +170,7 @@ Our implementation of this game is slightly simplified for practical purposes. T
     Merlin will always play the pass card when chosen on the quest.
 
 - **Updating Knowledge Based On Public Announcements And Reasoning**  
-  The general voting of individual agents on party makeup is not considered
-  a public announcement in our model. This is done in order to simplify the
-  workings of our implementation.  
 
-  The proposed quest party of the party leader is also not considered a public
-  announcement about the knowledge of the party leader in our model.
-  These restrictions are chosen to simplify the workings of our implementation.  
   - **Team Good**  
     The knowledge of members of team Good will be updated based on
     a public announcement that is a result of the quest passing/failing.
@@ -231,8 +224,8 @@ Melin's knowledge is the same as the evil players knowledge, except he knows who
 
 ### Quest 1
 
-- **party leader is assigned and proposes party**  
-  Then the first party leader is randomly chosen and agent 1 becomes mission
+- **Party leader is assigned and proposes party**  
+  The first party leader is randomly chosen and agent 1 becomes party
   leader. Agent 1 is an agent of team Good, and will therefore try to propose a
   party consisting of other members of team Good. The only agent i for which
   *K* <sub> 2 </sub> ¬ *e* <sub> i </sub>  is agent 1 itself. To fill the second spot in the party, agent 1 will try
@@ -276,7 +269,7 @@ Melin's knowledge is the same as the evil players knowledge, except he knows who
   keep this section readable and short.
 
 ### Quest 2
-- **party leader is assigned and proposes party**  
+- **Party leader is assigned and proposes party**  
   Agent 2 becomes the second party leader. They have no certain knowledge about
   any agents identity other than their own, and therefore will select themselves
   and a random agent for this mission. They propose the second party to consist
@@ -309,24 +302,22 @@ Melin's knowledge is the same as the evil players knowledge, except he knows who
 Initially we wanted to investigate the influence of Merlin on the winrate of team Good in the game of Avalon. Multiple games would be played between the two teams with different implementations of Merlin. The first would be no Merlin on team Good, only regular agents. The second would be a 'naive Merlin', that would always vote according to his knowledge and reasoning. The final version would be 'cautious Merlin'. This Merlin would use higher order knowledge in order to determine if he would vote according to his knowledge and reasoning or not. He would examine if, when he would vote according to his knowledge and reasoning, he would be revealed to team Evil as Merlin. If this was the case he would vote against his knowledge and reasoning, otherwise he would follow it.
 The example run discussed earlier was based on a naive Merlin and with Evil agents that use higher order knowledge.  
 
-However, when working on the implementation we encountered an issue with mlsolver. mlsolver trys to generate all the possible subsets of the worlds in our model. This resulted in $2^30$ subsets being considered, as there are 30 possible worlds with 5 players. This resulted in the RAM on our computer (16 GB) filling up and crashing the computer. It was concluded that our implementation of Avalon could not be run/created on a consumer computer, thus we decided to further simplify our implementation.
+However, when working on the implementation we encountered an issue with mlsolver. mlsolver trys to generate all the possible subsets of the worlds in our model. This resulted in 2^30 subsets being considered, as there are 30 possible worlds with 5 players. This resulted in the RAM of our computer (16 GB) filling up and crashing the computer. It was concluded that our implementation of Avalon could not be run/created on a consumer tier computer, thus we decided to further simplify our implementation.
 
-We decided to still investigate Merlin, but an extremely simplified version. We removed everything related to the m operator in our model. This results in only the e operator remaining, and thus only knowledge about if an agent belongs to team Evil or not. This decreases the number of worlds to 10, making it possible to model on a consumer tier computer. We decided to implement this 'simplified Merlin' by taking one of the members of team Good, and giving him knowledge about everyone's role. This is the same as regular Merlin, but without the m operator, agents of team Evil cannot reason about the identity of Merlin. To partially compensate for this, we decided to add a parameter that, after team Good has won a game where Merlin was present, team Evil will randomly assassinate a member of team Good. This means that, after team Good won, team Evil has a 33\% chance of winning anyway. Finally we also decided to look at these parameters in games where team Evil uses higher order knowledge and where they do not.
+We decided to still investigate Merlin, but an extremely simplified version. We removed everything related to the *m* operator in our model. This results in only the *e* operator remaining, and thus only knowledge about if an agent belongs to team Evil or not. This decreases the number of worlds to 10, making it possible to model on a consumer tier computer. We decided to implement this 'simplified Merlin' by taking one of the members of team Good, and giving him knowledge about everyone's role. This is the same as regular Merlin, but without the m operator, agents of team Evil cannot reason about the identity of Merlin. To partially compensate for this, we decided to add a parameter that, after team Good has won a game where Merlin was present, team Evil will randomly assassinate a member of team Good. This means that, after team Good won, team Evil has a 33% chance of winning anyway. Finally we also decided to look at these parameters in games where team Evil uses higher order knowledge and where they do not.
 Whether Evil agents can use higher order knowledge or not is also something we want to examine. If they use higher order knowledge they will reason about playing a pass or fail card when on a quest. If they reveal themselves when playing a fail card they will then play a pass card instead. If they do not use higher order knowledge then they will always play a fail card when on a quest.
 
 These implementations result in the following parameters: 
 - Number of games: This is set to 1000 in order to get a good idea of the average results for each parameter configuration
 - Merlin: Determines if Merlin is added to the game, can be set to True or False.
 - Higher Order Evil: Determines if team Evil uses higher order knowledge or not, can be set to True or False.
-- Evil Can Assassinate: Determines if, after a victory of team Good, a random agent of team Good is assassinated. If Merlin was assassinated then team Evil wins, can be set to True or False.
+- Evil Can Assassinate: Determines if, after a victory of team Good, a random agent of team Good is assassinated. If Merlin was assassinated then team Evil wins, can be set to True or False.  
 
-
-
-Our research question is therefore: How does the inclusion of an all-knowing Merlin in team Good, and the ability of Evil agents to reason about other agents knowledge affect winrates of both teams in the game of Avalon.
+Our research question is therefore: How does the inclusion of an all-knowing Merlin in team Good, and the ability of Evil agents to reason about other agents knowledge affect winrates of both teams in the game of Avalon.  
 
 The results that were gathered are the winrates of both team Good and team Evil, the average round length, the average round length if team Good won and the average round length if team Evil won.  
 
-The following image shows the initial knowledge of 5 agents in a run without Merlin. The world highlighted in green is the true world, wherein agents 1, 2 and 3 are Good and agents 4 and 5 are Evil. The arrows indicate what world each agent considers possible. The green arrow connects all worlds considered possible by agent 1, which are all the worlds in which agent 1 is Good. The yellow arrow does the same for agent 2, and the blue for agent 3. Both agents 4 and 5 consider only the true world possible, as they know everyone's identity, this is indicated by the red arrow. It is important to note that these arrows are transitive, meaning that if world A and B are connected by a green arrow and B and C are connected by a green arrow, there is also an implied (but not shown) arrow between A and C. This is done in order to keep the picture more readable.  
+The following image shows the initial knowledge of 5 agents in a run without Merlin. The world highlighted in green is the true world, where agents 1, 2 and 3 are Good and agents 4 and 5 are Evil. The arrows indicate what world each agent considers possible. The green arrow connects all worlds considered possible by agent 1, which are all the worlds in which agent 1 is Good. The yellow arrow does the same for agent 2, and the blue for agent 3. Both agents 4 and 5 consider only the true world possible, as they know everyone's identity, this is indicated by the red arrow. It is important to note that these arrows are transitive, meaning that if world A and B are connected by a green arrow and B and C are connected by a green arrow, there is also an implied (but not shown) arrow between A and C. This is done in order to keep the picture more readable.  
 
 ![initial_knowledge](img/Kripke.drawio.png)  
 
@@ -334,7 +325,7 @@ If we were to give agent 3 the Merlin role, all blue arrows as they are drawn ri
 
 
 ### Implementation
-We will implement a Kripke model to simulate AI players against other AI players. This will be implemented using the Python programming language, using the mlsolver framework for implementing the Kripke model and modelling the behaviour of the agents. Mlsolver is a framework for creating Kripke structures and solving modal logical formulas.  
+We will implement a Kripke model to simulate AI players against other AI players. This will be implemented using the Python programming language as well as using the mlsolver framework for implementing the Kripke model and modelling the behaviour of the agents. Mlsolver is a framework for creating Kripke structures and solving modal logical formulas.  
 
 ### Results
 The following table show the results of all the different parameter configurations that were examined:
@@ -349,7 +340,7 @@ The following table show the results of all the different parameter configuratio
 | _True_     | _True_                | _True_                   | 10%              | 90%              | 4.198                    | 4.3                       | 4.19                      |
 
 
-When no higher order knowledge is used by the Evil agents and no Merlin is in the game, the winrate of both teams is almost even. Team Evil has a slightly higher winrate than team Good, with 54% and 46% respectively. Adding Merlin, while team Evil has no higher order knowledge, drastically increases the winrate of team Good to 69%. If Merlin can be assassinated in this setup, the winrate evens out to 50%/50%. When agents on team Evil can use higher order knowledge, the winrate for team Evil increases immensely. When there is no Merlin, the winrate of team Evil is 95%. If Merlin is added the winrate decreases slightly to 87\%. If team Evil can assassinate their winrate slightly climbs back up to 90%.  
+When no higher order knowledge is used by the Evil agents and no Merlin is in the game, the winrate of both teams is almost even. Team Evil has a slightly higher winrate than team Good, with 54% and 46% respectively. Adding Merlin, while team Evil has no higher order knowledge, drastically increases the winrate of team Good to 69%. If Merlin can be assassinated in this setup, the winrate evens out to 50%/50%. When agents on team Evil can use higher order knowledge, the winrate for team Evil increases immensely. When there is no Merlin, the winrate of team Evil is 95%. If Merlin is added the winrate decreases slightly to 87%. If team Evil can assassinate their winrate slightly climbs back up to 90%.  
 
 The average round lengths do not vary much between different parameters. It is, however, noteworthy that team Evil wins the fastest when all parameters are set to False. Furthermore, games where team Evil wins are consistently faster (less average rounds per game) than games where team Good wins.
 

@@ -4,11 +4,11 @@ Authors: Anne-Jan Mein, Imme Huitema and Jelmer van Lune
 
 ## Description of Avalon
 
-In the boardgame Avalon, two teams are playing against each other. These teams are: "Loyal servants of Arthur" (Good) and "Minions of Mordred" (Evil).  Team Good wins by completing three out of five quests, team Evil by making sure three out of five quests fail or by eliminating a special character called Merlin" after thee quests have successfully been completed by team Good.
+In the boardgame Avalon, two teams are playing against each other. These teams are: "Loyal servants of Arthur" (Good) and "Minions of Mordred" (Evil).  Team Good wins by completing three out of five quests, team Evil by making sure three out of five quests fail or by eliminating a special character called Merlin" after three quests have successfully been completed by team Good.
 
 When playing with five players, the teams are split into three players on team Good (one of which is a special character called "Merlin") and two on team Evil (one of which is a special character called "Assassin"). At the start of the game everyone closes their eyes, and the players of team Evil reveal themselves to each other. Then everyone closes their eyes, and Merlin opens his eyes while the players of team Evil reveal themselves to Merlin without opening their eyes. This results in the players of team Evil knowing who is on team Good and who is on Team Evil without (most of) team Good knowing anything about other players than themselves. The only exception is Merlin, who also knows who is on team Good and Evil, but no one knows who Merlin is.
 
-Every round a party leader is assigned. The first leader is random, the following leaders are chosen as right side neighbour of the previous leader. The leader can choose who goes on a quest. These players that were sent on a quest then have a choice to play a "Pass" or a "Fail" card. A quest is only completed if everyone that went on said quest played the Pass card, otherwise the quest fails. Players on team Good must always play a Pass card, while players on team Evil can choose. After the cards have been played it's visible to all players what cards have been played, but not which player on the quest team played what card. After a quest is completed a new party leader is assigned. The quest party size can vary depending on quest number, which is determined as follows: 
+Every round a party leader is assigned. The first leader is random, the following leaders are chosen as right side neighbour of the previous leader. The leader can choose who goes on a quest. These players that were sent on a quest then have a choice to play a "Pass" or a "Fail" card. A quest is only completed if everyone that went on said quest played the Pass card, otherwise the quest fails. Players on team Good must always play a Pass card, while players on team Evil can choose. After the cards have been played it's visible to all players what cards have been played, but not which players on the quest team played what card. After a quest is completed a new party leader is assigned. The quest party size can vary depending on quest number, which is determined as follows: 
 
 **Quest Number**  | **Quest Party Size**
 -------------     | -------------
@@ -74,7 +74,7 @@ Our implementation of this game is slightly simplified for practical purposes. T
     *K<sub> 5 </sub>* (*K<sub> 4 </sub>* *K<sub> 3 </sub>* (*K<sub> 1 </sub>* ¬*e<sub> 1 </sub>* ∧ K<sub> 2 </sub> ¬*e<sub> 2 </sub>*  ∧ *K<sub> 5 </sub>* ¬*e<sub> 5 </sub>*))
     
 
-  In order to lower the complexity of our simultation, only the Evil players use their knowledge
+  In order to lower the complexity of our simulation, only the Evil players use their knowledge
   about who Merlin possibly is. Merlin simply acts like any other Good player, except he
   starts the game with full knowledge about other agents roles (similar to an Evil player). 
 
@@ -94,9 +94,7 @@ Our implementation of this game is slightly simplified for practical purposes. T
     When the party leader belongs to team Good they will start of filling up the 
     quest party with members of which they know that they belong to team Good.
     They will then try to fill up the rest of party with agents about whom
-    they do not know whether or not they are Evil. If no such agents
-    exist, they will fill up the party with agents about whom they know
-    they are Evil.
+    they do not know whether or not they are Evil.
 
   - **Team Evil**  
     When the party leader belongs to team Evil they do not want to send
@@ -120,7 +118,7 @@ Our implementation of this game is slightly simplified for practical purposes. T
     whose identity is known to the least amount of Good agents.
 
   - **Merlin**  
-    When the party leader is the Merlin it behaves the same as a team
+    When the party leader is Merlin it behaves the same as a team
     Good member. Because Merlin knows the identity of all agents, Merlin will only choose players randomly out of the group of team Good
     to send on a quest.
 

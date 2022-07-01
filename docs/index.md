@@ -4,31 +4,11 @@ Authors: Anne-Jan Mein, Imme Huitema and Jelmer van Lune
 
 ## Description of Avalon
 
-In the boardgame Avalon, two teams are playing against each other. These
-teams are: “Loyal servants of Arthur” (Good) and “Minions of Mordred” (Evil).
-Team Good wins by completing three out of five quests, team Evil by making
-sure three out of five quests fail or by eliminating a special character called
-“Merlin” after thee quests have successfully been completed.
-When playing with five players, the teams are split into three players on team
-Good (one of which is a special character called “Merlin”) and two on team Evil
-(one of which is a special character called ”Assassin”). At the start of the game
-everyone closes their eyes, and the players of team Evil reveal themselves to
-each other. Then everyone closes their eyes, and Merlin opens his eyes while
-the players of team Evil reveal themselves to Merlin without opening their eyes.
-This results in the players of team Evil knowing who is on team Good and who
-is on team Evil without (most of) team Good knowing anything about other
-players than themselves. The only exception is Merlin, who also knows who is
-on team Good and Evil, but no one knows who Merlin is.
-Every round a party leader is assigned. The first leader is random, the
-following leaders are chosen as right side neighbour of the previous leader. The
-leader can choose who goes on a quest. These players then have a choice to
-play a “Pass” or a “Fail” card. A quest is only completed if everyone that went
-on said quest played the Pass card, otherwise the quest fails. Players on team
-Good must always play a Pass card, while players on team Evil can choose.
-These cards are then shuffled and revealed to everyone. This results in everyone knowing
-how was voted, but not who voted what.
-After a quest is completed a new party leader is assigned. The quest party size
-can vary depending on quest number, which is determined as follows:
+In the boardgame Avalon, two teams are playing against each other. These teams are: "Loyal servants of Arthur" (Good) and "Minions of Mordred" (Evil).  Team Good wins by completing three out of five quests, team Evil by making sure three out of five quests fail or by eliminating a special character called Merlin" after thee quests have successfully been completed by team Good.
+
+When playing with five players, the teams are split into three players on team Good (one of which is a special character called "Merlin") and two on team Evil (one of which is a special character called "Assassin"). At the start of the game everyone closes their eyes, and the players of team Evil reveal themselves to each other. Then everyone closes their eyes, and Merlin opens his eyes while the players of team Evil reveal themselves to Merlin without opening their eyes. This results in the players of team Evil knowing who is on team Good and who is on Team Evil without (most of) team Good knowing anything about other players than themselves. The only exception is Merlin, who also knows who is on team Good and Evil, but no one knows who Merlin is.
+
+Every round a party leader is assigned. The first leader is random, the following leaders are chosen as right side neighbour of the previous leader. The leader can choose who goes on a quest. These players that were sent on a quest then have a choice to play a "Pass" or a "Fail" card. A quest is only completed if everyone that went on said quest played the Pass card, otherwise the quest fails. Players on team Good must always play a Pass card, while players on team Evil can choose. After the cards have been played it's visible to all players what cards have been played, but not which player on the quest team played what card. After a quest is completed a new party leader is assigned. The quest party size can vary depending on quest number, which is determined as follows: 
 
 **Quest Number**  | **Quest Party Size**
 -------------     | -------------
@@ -47,8 +27,9 @@ at victory. If they manage to determine who Merlin is, who might have revealed
 himself by sharing his knowledge too blatantly, they can assassinate him and
 win the game. 
 
+Our implementation of this game is slightly simplified for practical purposes. The first simplification is that agents on team Good do not use the information provided by the voting of other players. Only members of team Evil will use this information to reason about the identity of Merlin. The second simplification is that agents will always according to their knowledge and reasoning. For example, agents of team Evil will never "randomly" lie to confuse players, which is something that happens often in the real game of Avalon. There also is no Evil agent that explicitly has the "Assassin" role, as with our implementation both Evil agents always have the same knowledge.
 
-## Knowledge in Avalon
+## Knowledge and reasoning in our implementation of Avalon
 
 - **Initial Knowledge**  
   The logic in this game uses two propositional atoms: *e<sub> i </sub>* and *m<sub> i </sub>*. *e<sub> i </sub>* entails:
@@ -224,22 +205,10 @@ win the game.
     Merlins knowledge is not updated, as this agent already knows
     everyone’s role/allegiance.
 
+- **If team Good won**
+  If team Good won the game, members of team Evil will look at who they believe Merlin is. If they know the identity of Merlin they will choose to     
+  assassinate Merlin, resulting in a victory for team Evil. If they are unsure, the agent will randomly choose one of the players that they are uncertain about.
 
-## Research Question and Experiments
-
-Our research is performed by letting AI agents play games against each other and count how often each
-of the teams win, as well as how quickly. 
-We run these simulations multiple times with the inclusion of Merlin and without.
-
-Additionally, there two versions of Merlin. The first version is Naive Merlin, who
-will always vote during quest party propositions according to his knowledge and reasoning.
-The other version of Merlin is Cautious Merlin. This version will use his knowledge of the 
-knowledge of members of team Evil. This is done in order to hide their identity as Merlin.
-Merlin might, for example, vote against quest parties consisting of only team Good members. 
-This will be done by Cautious Merlin if he knows that his own role will be revealed if he would
-otherwise vote according to his regular voting reasoning.
-
-These three variations will be tested multiple times in order to investigate the winrate of team Good versus team Evil, and in turn the influence of Merlin on the game Avalon.
 
 ## Example Run
 
@@ -336,45 +305,22 @@ Melin's knowledge is the same as the evil players knowledge, except he knows who
   Because no fail cards were revealed for this quest, none of the agents learn
   anything.
 
-### Problems with this example run (possible discussion)
+## Research Question and Experiments
+Initially we wanted to investigate the influence of Merlin on the winrate of team Good in the game of Avalon. Multiple games would be played between the two teams with different implementations of Merlin. The first would be no Merlin on team Good, only regular agents. The second would be a 'naive Merlin', that would always vote according to his knowledge and reasoning. The final version would be 'cautious Merlin'. This Merlin would use higher order knowledge in order to determine if he would vote according to his knowledge and reasoning or not. He would examine if, when he would vote according to his knowledge and reasoning, he would be revealed to team Evil as Merlin. If this was the case he would vote against his knowledge and reasoning, otherwise he would follow it.
 
-As you may have noticed the identity of Merlin is already revealed to both team
-Evil members already after the first quest, because agent 3 and 4 no longer
-considers it possible that agents 1 and 2 are not Merlin, so it must be agent 5.  
-This means that at the end of the game team Evil is guaranteed to win.
-This is a problem in our setup right now. There is a variety of ways we can
-work around this problem, and we would like to discuss this in detail during our
-feedback session. For now, we have the following ideas:  
+However, when working on the implementation we encountered an issue with mlsolver. mlsolver trys to generate all the possible subsets of the worlds in our model. This resulted in $2^30$ subsets being considered, as there are 30 possible worlds with 5 players. This resulted in the RAM on our computer (16 GB) filling up and crashing the computer. It was concluded that our implementation of Avalon could not be run/created on a consumer computer, thus we decided to further simplify our implementation.
 
-- **Evil players can not win the game by determining which agent is Merlin.**      
-  By removing Merlin as a win-condition for team Evil, Merlin simply acts
-  as a very powerful member of team Good, and nothing else. We would
-  prefer to not have to choose this option, but it is there.
+We decided to still investigate Merlin, but an extremely simplified version. We removed everything related to the m operator in our model. This results in only the e operator remaining, and thus only knowledge about if an agent belongs to team Evil or not. This decreases the number of worlds to 10, making it possible to model on a consumer tier computer. We decided to implement this 'simplified Merlin' by taking one of the members of team Good, and giving him knowledge about everyone's role. This is the same as regular Merlin, but without the m operator, agents of team Evil cannot reason about the identity of Merlin. To partially compensate for this, we decided to add a parameter that, after team Good has won a game where Merlin was present, team Evil will randomly assassinate a member of team Good. This means that, after team Good won, team Evil has a 33\% chance of winning anyway. Finally we also decided to look at these parameters in games where team Evil uses higher order knowledge and where they do not.
 
-- **Evil players only reason about whether or not an agent is Merlin based
-  on the party that that agent proposes as party leader.**  
-  By doing this, Evil players are not guaranteed to learn Merlin’s identity
-  before some agents from team Good have enough information about the
-  Evil players’ identities in order to select “optimal” parties. This would
-  create some uncertainty for the Evil players about Merlins’ identity in
-  some games.
+These implementations result in the following parameters: 
+- Number of games: This is set to 1000 in order to get a good idea of the average results for each parameter configuration
+- Merlin: Determines if Merlin is added to the game, can be set to True or False
+- Higher Order Evil: Determines if team Evil uses higher order knowledge or not, can be set to True or False
+-  il Can Assassinate: Determines if, after a victory of team Good, a random agent of team Good is assassinated. If Merlin was assassinated then team Evil wins, can be set to True or False.
 
-- **Merlin can bluff by either voting in favor of parties with Evil agents, or
-  even proposing parties with Evil agents when they are party leader.**     
-  This would be the most realistic option, because this is how a real player
-  of Avalon would hide their identity as Merlin from team Evil. However,
-  this makes an implementation of this game using a Kripke model more
-  difficult, because Merlin would either need to use logic to determine when
-  it is necessary to bluff (not blindly following their knowledge) or not, or
-  he would need to have some chance to bluff (not act on their knowledge)
-  or not.
+Our research question is therefore: How does the inclusion of an all-knowing Merlin in team Good, and the ability of Evil agents to reason about other agents knowledge affect winrates of both teams in the game of Avalon.
 
-## Implementation
-
-We will implement a Kripke model to simulate AI players against other AI
-players. This will be implemented using the Python programming language,
-using the mlsolver library for implementing the Kripke model and
-modelling the behaviour of the agents.
+The results that were gathered are the winrates of both team Good and team Evil, the average round length, the average round length if team Good won and the average round length if team Evil won.
 
 | **Merlin** | **Higher Order Evil** | **Evil Can Assassinate** | **Good Winrate** | **Evil Winrate** | **Average Round Length** | **Round Length Good Won** | **Round Length Evil Won** |
 |------------|-----------------------|--------------------------|------------------|------------------|--------------------------|---------------------------|---------------------------|

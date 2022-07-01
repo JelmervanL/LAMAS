@@ -28,7 +28,7 @@ himself by sharing his knowledge too blatantly, they can assassinate him and
 win the game. 
 
 Our implementation of this game is slightly simplified for practical purposes. The first simplification is that agents on team Good do not use the information provided by the voting of other players. Only members of team Evil will use this information to reason about the identity of Merlin. The second simplification is that agents will always according to their knowledge and reasoning. For example, agents of team Evil will never "randomly" lie to confuse players, which is something that happens often in the real game of Avalon. There also is no Evil agent that explicitly has the "Assassin" role, as with our implementation both Evil agents always have the same knowledge. The proposed quest party of the party leader is also not considered a public
-announcement about the knowledge of the party leader in our model.  
+announcement about the knowledge of the party leader in our model. We implemented this game in a way that AI agents playing against each other.
 
 ## Knowledge and reasoning in our implementation of Avalon
 
@@ -324,10 +324,11 @@ The following image shows the initial knowledge of 5 agents in a run without Mer
 If we were to give agent 3 the Merlin role, all blue arrows as they are drawn right now would be removed, and a single blue arrow connecting the "true" world to itself would be added, as agent 3 now also knows everyone's identity.  
 
 
-### Implementation
-We will implement a Kripke model to simulate AI players against other AI players. This will be implemented using the Python programming language as well as using the mlsolver framework for implementing the Kripke model and modelling the behaviour of the agents. Mlsolver is a framework for creating Kripke structures and solving modal logical formulas.  
+## Implementation
+We implemented a Kripke model to simulate AI players against other AI players. For this we used the Python programming language together with the 
+[mlsolver](https://github.com/erohkohl/mlsolver) framework for implementing the Kripke model and modelling the behaviour of the agents. Mlsolver is a framework for creating Kripke structures and solving modal logical formulas.  
 
-### Results
+## Results
 The following table show the results of all the different parameter configurations that were examined:
 
 | **Merlin** | **Higher Order Evil** | **Evil Can Assassinate** | **Good Winrate** | **Evil Winrate** | **Average Round Length** | **Round Length Good Won** | **Round Length Evil Won** |

@@ -110,7 +110,9 @@ Our implementation of this game is slightly simplified for practical purposes. T
     The remaining spots for the quest are then randomly chosen from the
     Good members. The party leader will always choose one Evil member
     for the quest, even if both Evil members have been revealed to the
-    Good members. This Evil member will then be chosen randomly.
+    Good members. The quest leader will look at how many Good players know the identity of each Evil player. 
+    The Evil player that is revealed to the least amount of Good players is chosen. If this number is the same for both Evil players, 
+    the Evil member for the quest will then be chosen randomly. 
     This is done because the Evil members do not want to send a party
     that consists of only Good members.
 
